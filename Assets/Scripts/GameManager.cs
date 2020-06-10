@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    // Enumerators
+    public enum Tags {Enemy, Core}
+
     // Wave related variables
     public readonly int totalWaves = 5;
 

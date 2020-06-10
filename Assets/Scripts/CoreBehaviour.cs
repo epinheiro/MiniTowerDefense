@@ -15,4 +15,8 @@ public class CoreBehaviour : MonoBehaviour
     {
         
     }
+
+    void OnTriggerEnter(Collider other){
+        Debug.Log("CoreBehaviour collision " + other.name + " " + other.tag);
+    }
 }
