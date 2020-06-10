@@ -1,9 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
+    // Control variables
+    bool _raycastIsPossible = true;
+
     // Mouse related attributes
     GameObject _mouseArrow;
 
@@ -20,7 +24,7 @@ public class UIController : MonoBehaviour
     }
 
     void Update(){
-        if (Input.GetButtonDown("Fire1")) OnMouseClick();
+        if (Input.GetButtonDown("Fire1") && _raycastIsPossible) OnMouseClick();
     }
 
     //// Private methods
@@ -33,5 +37,22 @@ public class UIController : MonoBehaviour
             Debug.DrawRay(transform.position, ray.direction * 100, Color.green);
             Debug.Log("HIT " + hit.transform.name);
         }
+    }
+
+    //// Event callbacks
+    // Buttons pressed
+    public void OnClickTowerButton(){
+        Debug.Log("OnClickTowerButton");
+    }
+
+    public void OnClickWallButton(){
+        Debug.Log("OnClickWallButton");
+    }
+    // Buttons hovered
+    public void OnEnterHover(){
+        _raycastIsPossible = false;
+    }
+    public void OnExitHover(){
+        _raycastIsPossible = true;
     }
 }
