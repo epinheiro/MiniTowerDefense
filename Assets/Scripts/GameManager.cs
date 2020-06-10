@@ -5,7 +5,25 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     // Enumerators
+    public enum PlayerInteraction {NoSelection, WallSelection, TowerSelection}
     public enum Tags {Enemy, Core}
+
+    // Main game controller
+    PlayerInteraction _lastPlayerInteraction = PlayerInteraction.NoSelection;
+    PlayerInteraction _currentPlayerInteraction = PlayerInteraction.NoSelection;
+    public PlayerInteraction Interaction{
+        get { return _currentPlayerInteraction; }
+        set {
+            if(_currentPlayerInteraction != value){
+                _currentPlayerInteraction = value;
+                OnChangePlayerInteraction();
+            }
+        }
+    }
+
+    // Delegations
+    public delegate void PlayerInteractionAction(PlayerInteraction newState);
+    PlayerInteractionAction _interactionChangedListeners;
 
     // Wave related variables
     public readonly int totalWaves = 5;
@@ -21,25 +39,55 @@ public class GameManager : MonoBehaviour
     }
 
     // Core related variables
-    public GameObject _coreGameObject;
+    [SerializeField]
+    GameObject _coreGameObject;
     public GameObject Core{
         get { return _coreGameObject; }
+    }
+
+    // UI related variables
+    [SerializeField]
+    UIController _uiControllerReference;
+    public UIController UI{
+        get { return _uiControllerReference; }
     }
 
     //// MonoBehaviour methods
     void Awake(){
         if(_coreGameObject == null) SetupErrorMessage("Core game object not linked");
+        if(_uiControllerReference == null) SetupErrorMessage("UIController game object not linked");
+
+        _interactionChangedListeners += _uiControllerReference.OnPlayerInteractionChanged;
     }
 
+    void Start(){
+    }
 
     void Update()
     {
 
     }
 
+    //// Public click callbacks
+    public void PlayerInteractionClicked(PlayerInteraction newInteraction){
+        if(newInteraction == Interaction){
+            _lastPlayerInteraction = Interaction;
+            Interaction = PlayerInteraction.NoSelection;
+        }else{
+            _lastPlayerInteraction = Interaction;
+            Interaction = newInteraction;
+        }
+    }
+
     //// Private methods
     void OnWaveNumberChange(){
 
+    }
+
+    void OnChangePlayerInteraction(){
+        if(_interactionChangedListeners != null) {
+            _interactionChangedListeners(Interaction);
+        }
     }
 
     void SetupErrorMessage(string message){

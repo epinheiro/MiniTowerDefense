@@ -7,6 +7,11 @@ public class UIController : MonoBehaviour
 {
     // Control variables
     bool _raycastIsPossible = true;
+    
+    // Game objects references
+    Button _wallButtonReference;
+    Button _towerButtonReference;
+    GameManager _gameManager;
 
     // Mouse related attributes
     GameObject _mouseArrow;
@@ -14,9 +19,14 @@ public class UIController : MonoBehaviour
     //// MonoBehaviour methods
     void Awake(){
         _mouseArrow = this.transform.Find("MouseArrow").gameObject;
+
+        Transform buttonGroup = this.transform.Find("OverlayUI").Find("Buttons");
+        _wallButtonReference = buttonGroup.Find("UIButton_Wall").GetComponent<Button>();
+        _towerButtonReference = buttonGroup.Find("UIButton_Tower").GetComponent<Button>();
     }
 
     void Start(){
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>(); // TODO futurely will be changed to a Init method
     }
 
     void FixedUpdate(){
@@ -39,14 +49,29 @@ public class UIController : MonoBehaviour
         }
     }
 
+    void SetToggleButton(bool isClicked, Button button){        
+        if(isClicked){
+            ChangeButtonColor(button, Color.grey);
+        }else{
+            ChangeButtonColor(button, Color.white);
+        }
+    }
+
+    void ChangeButtonColor(Button button, Color newColor){
+        var colors = button.colors;
+        colors.normalColor = newColor;
+        colors.highlightedColor = newColor;
+        button.colors = colors;
+    }
+
     //// Event callbacks
     // Buttons pressed
     public void OnClickTowerButton(){
-        Debug.Log("OnClickTowerButton");
+        _gameManager.PlayerInteractionClicked(GameManager.PlayerInteraction.TowerSelection);
     }
 
     public void OnClickWallButton(){
-        Debug.Log("OnClickWallButton");
+        _gameManager.PlayerInteractionClicked(GameManager.PlayerInteraction.WallSelection);
     }
     // Buttons hovered
     public void OnEnterHover(){
@@ -54,5 +79,24 @@ public class UIController : MonoBehaviour
     }
     public void OnExitHover(){
         _raycastIsPossible = true;
+    }
+    // State changed
+    public void OnPlayerInteractionChanged(GameManager.PlayerInteraction newState){
+        switch(newState){
+            case GameManager.PlayerInteraction.NoSelection:
+                SetToggleButton(false, _wallButtonReference);
+                SetToggleButton(false, _towerButtonReference);
+                break;
+
+            case GameManager.PlayerInteraction.TowerSelection:
+                SetToggleButton(false, _wallButtonReference);
+                SetToggleButton(true, _towerButtonReference);
+                break;
+
+            case GameManager.PlayerInteraction.WallSelection:
+                SetToggleButton(true, _wallButtonReference);
+                SetToggleButton(false, _towerButtonReference);
+                break;
+        }
     }
 }
