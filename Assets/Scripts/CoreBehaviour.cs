@@ -4,19 +4,61 @@ using UnityEngine;
 
 public class CoreBehaviour : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    // Balance variables
+    float _secondsToCheckMenace = 2;
+
+    // Core gameplay attributes
+    float _coreTotalLife = 1;
+
+    
+    // Enemy related attributes
+    List<EnemyBehaviour> _menaces;
+
+    //// MonoBehaviour methods
+    void Awake(){
+        _menaces = new List<EnemyBehaviour>();
     }
 
-    // Update is called once per frame
+    void Start()
+    {
+        this.StartCoroutine(CheckMenacesCoroutine(_secondsToCheckMenace));
+    }
+
     void Update()
     {
-        
+        if(_coreTotalLife == 0){
+            Debug.Log("YOU LOST!");
+        }
     }
 
     void OnTriggerEnter(Collider other){
-        Debug.Log("CoreBehaviour collision " + other.name + " " + other.tag);
+        switch(System.Enum.Parse(typeof(GameManager.Tags), other.tag)){
+            case GameManager.Tags.Enemy:
+                _menaces.Add(other.GetComponent<EnemyBehaviour>());
+                break;
+        }
+    }
+
+    //// Coroutines
+    IEnumerator CheckMenacesCoroutine(float secondsToCheckMenace){
+        while(true){
+            yield return new WaitForSecondsRealtime(secondsToCheckMenace);
+            if(_menaces.Count > 0){
+                TakeDamageFromManaces();
+            }
+        }
+    }
+
+    //// Private methods
+    void TakeDamageFromManaces(){
+        _coreTotalLife -= _menaces.Count; // CHECK - Hardcoded damage
+        ClearMenaceObjectList();
+    }
+
+    void ClearMenaceObjectList(){
+        foreach(EnemyBehaviour eb in _menaces){
+            Destroy(eb.gameObject);
+        }
+        _menaces.Clear();
     }
 }
