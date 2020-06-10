@@ -6,11 +6,11 @@ using UnityEngine.AI;
 public class EnemyBehaviour : MonoBehaviour
 {
     GameObject _coreReference;
-    NavMeshAgent aiAgent;
+    NavMeshAgent _aiAgent;
 
 
     void Awake(){
-        aiAgent = this.GetComponent<NavMeshAgent>();
+        _aiAgent = this.GetComponent<NavMeshAgent>();
     }
 
     //// MonoBehaviour methods
@@ -20,10 +20,9 @@ public class EnemyBehaviour : MonoBehaviour
         ChangeAgentDestination(_coreReference.transform.position);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     void OnTriggerEnter(Collider other){
@@ -38,7 +37,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     //// Private methods
     void ChangeAgentDestination(Vector3 goToPosition){
-        aiAgent.destination = goToPosition; 
+        _aiAgent.destination = goToPosition; 
     }
 
     void EnemyLookAt(Transform target){

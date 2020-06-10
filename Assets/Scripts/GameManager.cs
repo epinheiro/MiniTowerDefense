@@ -26,10 +26,7 @@ public class GameManager : MonoBehaviour
         get { return _coreGameObject; }
     }
 
-    void SetupErrorMessage(string message){
-        throw new System.Exception(string.Format("GameManager not correctly setup: {0}", message));
-    }
-
+    //// MonoBehaviour methods
     void Awake(){
         if(_coreGameObject == null) SetupErrorMessage("Core game object not linked");
     }
@@ -40,7 +37,12 @@ public class GameManager : MonoBehaviour
 
     }
 
+    //// Private methods
     void OnWaveNumberChange(){
 
+    }
+
+    void SetupErrorMessage(string message){
+        throw new System.Exception(string.Format("GameManager not correctly setup: {0}", message));
     }
 }
