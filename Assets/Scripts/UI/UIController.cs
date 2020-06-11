@@ -34,19 +34,25 @@ public class UIController : MonoBehaviour
     }
 
     void Update(){
-        if (Input.GetButtonDown("Fire1") && _raycastIsPossible) OnMouseClick();
+        RaycastHit hit = MouseCameraRayCast();
+
+        if (Input.GetButtonDown("Fire1") && _raycastIsPossible) OnMouseClick(hit);
     }
 
     //// Private methods
-    void OnMouseClick(){
+    RaycastHit MouseCameraRayCast(){
         // https://docs.unity3d.com/ScriptReference/Input-mousePosition.html
         RaycastHit hit;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit)){
-            Debug.DrawRay(transform.position, ray.direction * 100, Color.green);
-            Debug.Log("HIT " + hit.transform.name);
+            Debug.DrawRay(hit.point, -ray.direction * 50, Color.black);
         }
+
+        return hit;
+    }
+    void OnMouseClick(RaycastHit hit){
+        Debug.Log("HIT " + hit.transform.name);
     }
 
     void SetToggleButton(bool isClicked, Button button){        
