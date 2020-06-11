@@ -15,6 +15,7 @@ public class InputController : MonoBehaviour
 
     // Mouse related attributes
     GameObject _mouseArrow;
+    public Vector3 mouseRayCastPoint;
 
     //// MonoBehaviour methods
     void Awake(){
@@ -31,10 +32,10 @@ public class InputController : MonoBehaviour
 
     void FixedUpdate(){
         _mouseArrow.transform.position = Input.mousePosition;
-    }
 
-    void Update(){
         RaycastHit hit = MouseCameraRayCast();
+
+        mouseRayCastPoint = hit.point;
 
         if (Input.GetButtonDown("Fire1") && _raycastIsPossible) OnMouseClick(hit);
     }
