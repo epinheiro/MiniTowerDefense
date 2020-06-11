@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    // Meta setup
+    readonly int poolSize = 5;
+
     // Enumerators
     public enum PlayerInteraction {NoSelection, WallSelection, TowerSelection}
     public enum Tags {Enemy, Core}
@@ -58,8 +61,10 @@ public class GameManager : MonoBehaviour
     Transform constructionsParent;
     [SerializeField]
     GameObject _towerPrefab = null;
+    PrefabPoolingSystem towerPool;
     [SerializeField]
     GameObject _wallPrefab = null;
+    PrefabPoolingSystem wallPool;
 
 
     //// MonoBehaviour methods
@@ -70,6 +75,9 @@ public class GameManager : MonoBehaviour
         if(_wallPrefab == null) SetupErrorMessage("Wall game object prefab not linked");
 
         constructionsParent = transform.Find("Constructions");
+        towerPool = new PrefabPoolingSystem(_towerPrefab, poolSize, constructionsParent);
+        wallPool = new PrefabPoolingSystem(_wallPrefab, poolSize, constructionsParent);
+
         enemiesParent = transform.Find("Enemies");
 
         _interactionChangedListeners += _uiControllerReference.OnPlayerInteractionChanged;
