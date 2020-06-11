@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Enemy
   - Core
+  - Ground
+  - Forest
+  - UI
+  - Construction
   layers:
   - Default
   - TransparentFX

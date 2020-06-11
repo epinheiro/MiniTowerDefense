@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 
     // Enumerators
     public enum InteractionMode {NoSelection, WallSelection, TowerSelection}
-    public enum Tags {Enemy, Core}
+    public enum Tags {Enemy, Core, Ground, Forest, UI, Construction}
 
     // Main game controller
     InteractionMode _lastPlayerInteraction = InteractionMode.NoSelection;
