@@ -5,6 +5,12 @@ using UnityEngine.UI;
 
 public class InputController : MonoBehaviour
 {
+    // Delegation
+    public delegate void PassVector3(Vector3 vector);
+
+    // Notification
+    PassVector3 mouseListeners;
+
     // Control variables
     bool _raycastIsPossible = true;
     
@@ -15,7 +21,14 @@ public class InputController : MonoBehaviour
 
     // Mouse related attributes
     GameObject _mouseArrow;
-    public Vector3 mouseRayCastPoint;
+    Vector3 _mouseRayCastPoint;
+    public Vector3 MouseRayCastPoint{
+        get { return _mouseRayCastPoint; }
+        set {
+            _mouseRayCastPoint = value;
+            MouseRayCastListeners();
+        }
+    }
 
     //// MonoBehaviour methods
     void Awake(){
@@ -35,7 +48,7 @@ public class InputController : MonoBehaviour
 
         RaycastHit hit = MouseCameraRayCast();
 
-        mouseRayCastPoint = hit.point;
+        MouseRayCastPoint = hit.point; 
 
         if (Input.GetButtonDown("Fire1") && _raycastIsPossible) OnMouseClick(hit);
     }
@@ -69,6 +82,15 @@ public class InputController : MonoBehaviour
         colors.normalColor = newColor;
         colors.highlightedColor = newColor;
         button.colors = colors;
+    }
+
+    void MouseRayCastListeners(){
+        if(mouseListeners != null) mouseListeners(MouseRayCastPoint);
+    }
+
+    //// Public API
+    public void RegisterMouseMovementListener(PassVector3 listenerCallback){
+        mouseListeners += listenerCallback;
     }
 
     //// Event callbacks
