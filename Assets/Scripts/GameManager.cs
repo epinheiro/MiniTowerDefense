@@ -25,7 +25,9 @@ public class GameManager : MonoBehaviour
     public delegate void PlayerInteractionAction(PlayerInteraction newState);
     PlayerInteractionAction _interactionChangedListeners;
 
-    // Wave related variables
+    // Wave and Enemies related variables
+    Transform enemiesParent;
+
     public readonly int totalWaves = 5;
 
     int _currentWave = 0;
@@ -52,10 +54,23 @@ public class GameManager : MonoBehaviour
         get { return _uiControllerReference; }
     }
 
+    // Construction
+    Transform constructionsParent;
+    [SerializeField]
+    GameObject _towerPrefab;
+    [SerializeField]
+    GameObject _wallPrefab;
+
+
     //// MonoBehaviour methods
     void Awake(){
         if(_coreGameObject == null) SetupErrorMessage("Core game object not linked");
         if(_uiControllerReference == null) SetupErrorMessage("UIController game object not linked");
+        if(_towerPrefab == null) SetupErrorMessage("Tower game object prefab not linked");
+        if(_wallPrefab == null) SetupErrorMessage("Wall game object prefab not linked");
+
+        constructionsParent = transform.Find("Constructions");
+        enemiesParent = transform.Find("Enemies");
 
         _interactionChangedListeners += _uiControllerReference.OnPlayerInteractionChanged;
     }
