@@ -42,14 +42,14 @@ public class GameManager : MonoBehaviour
 
     // Core related variables
     [SerializeField]
-    GameObject _coreGameObject;
+    GameObject _coreGameObject = null;
     public GameObject Core{
         get { return _coreGameObject; }
     }
 
     // UI related variables
     [SerializeField]
-    UIController _uiControllerReference;
+    UIController _uiControllerReference = null;
     public UIController UI{
         get { return _uiControllerReference; }
     }
@@ -57,9 +57,9 @@ public class GameManager : MonoBehaviour
     // Construction
     Transform constructionsParent;
     [SerializeField]
-    GameObject _towerPrefab;
+    GameObject _towerPrefab = null;
     [SerializeField]
-    GameObject _wallPrefab;
+    GameObject _wallPrefab = null;
 
 
     //// MonoBehaviour methods
