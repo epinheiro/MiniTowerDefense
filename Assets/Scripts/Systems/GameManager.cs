@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Construction
-    ConstructionSystem constructionSystem;
+    ConstructionSystem _constructionSystem;
     [SerializeField]
     GameObject _towerPrefab = null;
     [SerializeField]
@@ -69,11 +69,12 @@ public class GameManager : MonoBehaviour
     void Awake(){
         if(_coreGameObject == null) SetupErrorMessage("Core game object not linked");
         if(_inputControllerReference == null) SetupErrorMessage("UIController game object not linked");
+        
         if(_towerPrefab == null) SetupErrorMessage("Tower game object prefab not linked");
         if(_wallPrefab == null) SetupErrorMessage("Wall game object prefab not linked");
-
         Transform constructionsParent = transform.Find("Constructions");
-        constructionSystem = new ConstructionSystem(_towerPrefab, _wallPrefab, poolSize, constructionsParent);
+        _constructionSystem = new ConstructionSystem(_towerPrefab, _wallPrefab, poolSize, constructionsParent);
+        Input.RegisterMouseMovementListener(_constructionSystem.OnMouseChange);
 
         enemiesParent = transform.Find("Enemies");
 
