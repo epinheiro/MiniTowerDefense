@@ -10,6 +10,7 @@ TagManager:
   - Forest
   - UI
   - Construction
+  - Blueprint
   layers:
   - Default
   - TransparentFX

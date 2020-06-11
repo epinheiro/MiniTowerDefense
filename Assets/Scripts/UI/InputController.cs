@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -46,24 +46,42 @@ public class InputController : MonoBehaviour
     void FixedUpdate(){
         _mouseArrow.transform.position = Input.mousePosition;
 
-        RaycastHit hit = MouseCameraRayCast();
+        RaycastHit? hit = MouseCameraRayCast();
 
-        MouseRayCastPoint = hit.point; 
+        if(hit.HasValue){
+            MouseRayCastPoint = hit.Value.point;
+        }
 
-        if (Input.GetButtonDown("Fire1") && _raycastIsPossible) OnMouseClick(hit);
+        if (Input.GetButtonDown("Fire1") && hit.HasValue && _raycastIsPossible) OnMouseClick(hit.Value);
     }
 
     //// Private methods
-    RaycastHit MouseCameraRayCast(){
-        // https://docs.unity3d.com/ScriptReference/Input-mousePosition.html
-        RaycastHit hit;
-
+    RaycastHit? MouseCameraRayCast(){
+        // Adapted from https://docs.unity3d.com/ScriptReference/Input-mousePosition.html
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit)){
-            Debug.DrawRay(hit.point, -ray.direction * 50, Color.black);
-        }
 
-        return hit;
+        RaycastHit? hitResult = null;
+        
+        RaycastHit[] hits = Physics.RaycastAll(ray);
+        foreach(RaycastHit hit in hits){
+            Debug.DrawRay(hit.point, -ray.direction * 50, Color.black);
+
+            GameManager.Tags objectTag = (GameManager.Tags) System.Enum.Parse(typeof(GameManager.Tags), hit.collider.tag);
+            switch(objectTag){
+                case GameManager.Tags.Ground:
+                    hitResult = hit;
+                    break;
+
+                case GameManager.Tags.Blueprint: // Do nothing
+                    break;
+
+                case GameManager.Tags.Construction:
+                case GameManager.Tags.Enemy:
+                case GameManager.Tags.Core:
+                    return null;
+            }
+        }
+        return hitResult;
     }
     void OnMouseClick(RaycastHit hit){
         Debug.Log("HIT " + hit.transform.name);
