@@ -58,13 +58,11 @@ public class GameManager : MonoBehaviour
     }
 
     // Construction
-    Transform constructionsParent;
+    ConstructionSystem constructionSystem;
     [SerializeField]
     GameObject _towerPrefab = null;
-    PrefabPoolingSystem towerPool;
     [SerializeField]
     GameObject _wallPrefab = null;
-    PrefabPoolingSystem wallPool;
 
 
     //// MonoBehaviour methods
@@ -74,9 +72,8 @@ public class GameManager : MonoBehaviour
         if(_towerPrefab == null) SetupErrorMessage("Tower game object prefab not linked");
         if(_wallPrefab == null) SetupErrorMessage("Wall game object prefab not linked");
 
-        constructionsParent = transform.Find("Constructions");
-        towerPool = new PrefabPoolingSystem(_towerPrefab, poolSize, constructionsParent);
-        wallPool = new PrefabPoolingSystem(_wallPrefab, poolSize, constructionsParent);
+        Transform constructionsParent = transform.Find("Constructions");
+        constructionSystem = new ConstructionSystem(_towerPrefab, _wallPrefab, poolSize, constructionsParent);
 
         enemiesParent = transform.Find("Enemies");
 
