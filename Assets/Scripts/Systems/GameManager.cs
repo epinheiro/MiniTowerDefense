@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -70,11 +70,13 @@ public class GameManager : MonoBehaviour
         if(_coreGameObject == null) SetupErrorMessage("Core game object not linked");
         if(_inputControllerReference == null) SetupErrorMessage("UIController game object not linked");
         
+        // Construction System
         if(_towerPrefab == null) SetupErrorMessage("Tower game object prefab not linked");
         if(_wallPrefab == null) SetupErrorMessage("Wall game object prefab not linked");
         Transform constructionsParent = transform.Find("Constructions");
-        _constructionSystem = new ConstructionSystem(_towerPrefab, _wallPrefab, poolSize, constructionsParent);
+        _constructionSystem = new ConstructionSystem(this, _towerPrefab, _wallPrefab, poolSize, constructionsParent);
         Input.RegisterMouseMovementListener(_constructionSystem.OnMouseChange);
+        Input.RegisterMouseClickListener(_constructionSystem.OnMouseClick);
 
         enemiesParent = transform.Find("Enemies");
 

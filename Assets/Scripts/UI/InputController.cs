@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,7 +9,8 @@ public class InputController : MonoBehaviour
     public delegate void PassVector3(Vector3 vector);
 
     // Notification
-    PassVector3 mouseListeners;
+    PassVector3 _mouseMovementListeners;
+    PassVector3 _mouseClickListeners;
 
     // Control variables
     bool _raycastIsPossible = true;
@@ -84,7 +85,7 @@ public class InputController : MonoBehaviour
         return hitResult;
     }
     void OnMouseClick(RaycastHit hit){
-        Debug.Log("HIT " + hit.transform.name);
+        _mouseClickListeners(hit.point);
     }
 
     void SetToggleButton(bool isClicked, Button button){        
@@ -103,12 +104,16 @@ public class InputController : MonoBehaviour
     }
 
     void MouseRayCastListeners(){
-        if(mouseListeners != null) mouseListeners(MouseRayCastPoint);
+        if(_mouseMovementListeners != null) _mouseMovementListeners(MouseRayCastPoint);
     }
 
     //// Public API
     public void RegisterMouseMovementListener(PassVector3 listenerCallback){
-        mouseListeners += listenerCallback;
+        _mouseMovementListeners += listenerCallback;
+    }
+
+    public void RegisterMouseClickListener(PassVector3 listenerCallback){
+        _mouseClickListeners += listenerCallback;
     }
 
     //// Event callbacks
