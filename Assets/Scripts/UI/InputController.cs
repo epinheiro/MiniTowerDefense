@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIController : MonoBehaviour
+public class InputController : MonoBehaviour
 {
     // Control variables
     bool _raycastIsPossible = true;
@@ -73,11 +73,11 @@ public class UIController : MonoBehaviour
     //// Event callbacks
     // Buttons pressed
     public void OnClickTowerButton(){
-        _gameManager.PlayerInteractionClicked(GameManager.PlayerInteraction.TowerSelection);
+        _gameManager.PlayerInteractionClicked(GameManager.InteractionMode.TowerSelection);
     }
 
     public void OnClickWallButton(){
-        _gameManager.PlayerInteractionClicked(GameManager.PlayerInteraction.WallSelection);
+        _gameManager.PlayerInteractionClicked(GameManager.InteractionMode.WallSelection);
     }
     // Buttons hovered
     public void OnEnterHover(){
@@ -87,19 +87,19 @@ public class UIController : MonoBehaviour
         _raycastIsPossible = true;
     }
     // State changed
-    public void OnPlayerInteractionChanged(GameManager.PlayerInteraction newState){
+    public void OnPlayerInteractionChanged(GameManager.InteractionMode newState){
         switch(newState){
-            case GameManager.PlayerInteraction.NoSelection:
+            case GameManager.InteractionMode.NoSelection:
                 SetToggleButton(false, _wallButtonReference);
                 SetToggleButton(false, _towerButtonReference);
                 break;
 
-            case GameManager.PlayerInteraction.TowerSelection:
+            case GameManager.InteractionMode.TowerSelection:
                 SetToggleButton(false, _wallButtonReference);
                 SetToggleButton(true, _towerButtonReference);
                 break;
 
-            case GameManager.PlayerInteraction.WallSelection:
+            case GameManager.InteractionMode.WallSelection:
                 SetToggleButton(true, _wallButtonReference);
                 SetToggleButton(false, _towerButtonReference);
                 break;

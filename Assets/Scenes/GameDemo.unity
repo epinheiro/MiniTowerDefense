@@ -931,6 +931,11 @@ PrefabInstance:
       propertyPath: _uiControllerReference
       value: 
       objectReference: {fileID: 915022469}
+    - target: {fileID: 287099803873353435, guid: 7f541310b9a8be7428cdebbeffc9970a,
+        type: 3}
+      propertyPath: _inputControllerReference
+      value: 
+      objectReference: {fileID: 915022469}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f541310b9a8be7428cdebbeffc9970a, type: 3}
 --- !u!1001 &7579167187021476733

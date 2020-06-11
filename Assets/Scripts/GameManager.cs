@@ -8,13 +8,13 @@ public class GameManager : MonoBehaviour
     readonly int poolSize = 5;
 
     // Enumerators
-    public enum PlayerInteraction {NoSelection, WallSelection, TowerSelection}
+    public enum InteractionMode {NoSelection, WallSelection, TowerSelection}
     public enum Tags {Enemy, Core}
 
     // Main game controller
-    PlayerInteraction _lastPlayerInteraction = PlayerInteraction.NoSelection;
-    PlayerInteraction _currentPlayerInteraction = PlayerInteraction.NoSelection;
-    public PlayerInteraction Interaction{
+    InteractionMode _lastPlayerInteraction = InteractionMode.NoSelection;
+    InteractionMode _currentPlayerInteraction = InteractionMode.NoSelection;
+    public InteractionMode Interaction{
         get { return _currentPlayerInteraction; }
         set {
             if(_currentPlayerInteraction != value){
@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Delegations
-    public delegate void PlayerInteractionAction(PlayerInteraction newState);
+    public delegate void PlayerInteractionAction(InteractionMode newState);
     PlayerInteractionAction _interactionChangedListeners;
 
     // Wave and Enemies related variables
@@ -52,9 +52,9 @@ public class GameManager : MonoBehaviour
 
     // UI related variables
     [SerializeField]
-    UIController _uiControllerReference = null;
-    public UIController UI{
-        get { return _uiControllerReference; }
+    InputController _inputControllerReference = null;
+    public InputController Input{
+        get { return _inputControllerReference; }
     }
 
     // Construction
@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
     //// MonoBehaviour methods
     void Awake(){
         if(_coreGameObject == null) SetupErrorMessage("Core game object not linked");
-        if(_uiControllerReference == null) SetupErrorMessage("UIController game object not linked");
+        if(_inputControllerReference == null) SetupErrorMessage("UIController game object not linked");
         if(_towerPrefab == null) SetupErrorMessage("Tower game object prefab not linked");
         if(_wallPrefab == null) SetupErrorMessage("Wall game object prefab not linked");
 
@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour
 
         enemiesParent = transform.Find("Enemies");
 
-        _interactionChangedListeners += _uiControllerReference.OnPlayerInteractionChanged;
+        _interactionChangedListeners += _inputControllerReference.OnPlayerInteractionChanged;
     }
 
     void Start(){
@@ -92,10 +92,10 @@ public class GameManager : MonoBehaviour
     }
 
     //// Public click callbacks
-    public void PlayerInteractionClicked(PlayerInteraction newInteraction){
+    public void PlayerInteractionClicked(InteractionMode newInteraction){
         if(newInteraction == Interaction){
             _lastPlayerInteraction = Interaction;
-            Interaction = PlayerInteraction.NoSelection;
+            Interaction = InteractionMode.NoSelection;
         }else{
             _lastPlayerInteraction = Interaction;
             Interaction = newInteraction;
