@@ -105,8 +105,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feef0660119c1ab4d953b12948ccd4b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemyPrefab: {fileID: 3752555714687263115, guid: 83f67d2ae72f95f4bbaf3d8ddd0902df,
+    type: 3}
   _coreGameObject: {fileID: 0}
-  _uiControllerReference: {fileID: 0}
+  _inputControllerReference: {fileID: 0}
   _towerPrefab: {fileID: 1722860564209738897, guid: c2e999eecfbe7e442a98cf74d703fd27,
     type: 3}
   _wallPrefab: {fileID: 4043919993418310943, guid: 6467ab911a8dcf2429964d720f863769,
