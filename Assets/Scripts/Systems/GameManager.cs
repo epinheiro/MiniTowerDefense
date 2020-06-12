@@ -81,6 +81,7 @@ public class GameManager : MonoBehaviour
         enemiesParent = transform.Find("Enemies");
 
         _interactionChangedListeners += _inputControllerReference.OnPlayerInteractionChanged;
+        _interactionChangedListeners += _constructionSystem.OnPlayerInteractionChanged;
     }
 
     void Start(){
