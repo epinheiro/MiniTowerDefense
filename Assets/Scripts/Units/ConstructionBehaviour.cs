@@ -6,19 +6,19 @@ using UnityEngine.AI;
 public class ConstructionBehaviour : MonoBehaviour
 {
     // Resources
-    Material _blueprintMaterial;
-    Material _activeMaterial;
+    protected Material _blueprintMaterial;
+    protected Material _activeMaterial;
 
     // Components
-    Renderer _renderer;
-    CapsuleCollider _collider;
-    NavMeshObstacle _aiObstacle;
+    protected Renderer _renderer;
+    protected CapsuleCollider _collider;
+    protected NavMeshObstacle _aiObstacle;
 
 
     protected float lifeTime;
 
     //// MonoBehaviour methods
-    void Awake(){
+    protected virtual void Awake(){
         this._renderer = GetComponent<Renderer>();
 
         this._blueprintMaterial = Resources.Load("Materials/mat_construction_blueprint") as Material;
@@ -26,28 +26,20 @@ public class ConstructionBehaviour : MonoBehaviour
 
         this._collider = GetComponent<CapsuleCollider>();
         this._aiObstacle = GetComponent<NavMeshObstacle>();
+    }
 
+    protected virtual void Start(){
         ResetToBlueprint();
     }
 
-    void Start()
-    {
-
-    }
-
-    void Update()
-    {
-
-    }
-
     //// Public API
-    public void ResetToBlueprint(){
+    public virtual void ResetToBlueprint(){
         _renderer.material = _blueprintMaterial;
         _collider.enabled = false;
         _aiObstacle.enabled = false;
     }
 
-    public void Activate(){
+    public virtual void Activate(){
         _renderer.material = _activeMaterial;
         _collider.enabled = true;
         _aiObstacle.enabled = true;
