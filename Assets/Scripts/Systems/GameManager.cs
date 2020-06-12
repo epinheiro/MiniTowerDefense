@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     // Meta setup
     readonly int _constructionPoolSize = 5;
     readonly int _enemyPoolSize = 20;
+    readonly int _projectilePoolSize = 60;
 
     // Enumerators
     public enum InteractionMode {NoSelection, WallSelection, TowerSelection}
@@ -50,6 +51,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Projectile related variables
+    ProjectileSystem _projectileSystem;
+    public ProjectileSystem Projectiles{
+        get { return _projectileSystem; }
+    }
+    [SerializeField]
+    GameObject _projectilePrefab = null;
+
     // Core related variables
     [SerializeField]
     GameObject _coreGameObject = null;
@@ -87,6 +96,11 @@ public class GameManager : MonoBehaviour
 
         _interactionChangedListeners += _inputControllerReference.OnPlayerInteractionChanged;
         _interactionChangedListeners += _constructionSystem.OnPlayerInteractionChanged;
+
+        // Projectile system
+        if(_projectilePrefab == null) SetupErrorMessage("Projectile game object prefab not linked");
+        Transform projectilesParent = transform.Find("Projectiles");
+        _projectileSystem = new ProjectileSystem(this, _projectilePrefab, _projectilePoolSize, projectilesParent);
 
         // Enemy System
         if(_enemyPrefab == null) SetupErrorMessage("Enemy game object prefab not linked");
