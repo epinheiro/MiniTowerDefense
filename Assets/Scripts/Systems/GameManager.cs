@@ -5,7 +5,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     // Meta setup
-    readonly int poolSize = 5;
+    readonly int _constructionPoolSize = 5;
+    readonly int _enemyPoolSize = 20;
 
     // Enumerators
     public enum InteractionMode {NoSelection, WallSelection, TowerSelection}
@@ -29,7 +30,13 @@ public class GameManager : MonoBehaviour
     PlayerInteractionAction _interactionChangedListeners;
 
     // Wave and Enemies related variables
-    Transform enemiesParent;
+    EnemySystem _enemySystem;
+    public EnemySystem Enemies{
+        get { return _enemySystem; }
+    }
+
+    [SerializeField]
+    GameObject _enemyPrefab = null;
 
     public readonly int totalWaves = 5;
 
@@ -74,14 +81,17 @@ public class GameManager : MonoBehaviour
         if(_towerPrefab == null) SetupErrorMessage("Tower game object prefab not linked");
         if(_wallPrefab == null) SetupErrorMessage("Wall game object prefab not linked");
         Transform constructionsParent = transform.Find("Constructions");
-        _constructionSystem = new ConstructionSystem(this, _towerPrefab, _wallPrefab, poolSize, constructionsParent);
+        _constructionSystem = new ConstructionSystem(this, _towerPrefab, _wallPrefab, _constructionPoolSize, constructionsParent);
         Input.RegisterMouseMovementListener(_constructionSystem.OnMouseChange);
         Input.RegisterMouseClickListener(_constructionSystem.OnMouseClick);
 
-        enemiesParent = transform.Find("Enemies");
-
         _interactionChangedListeners += _inputControllerReference.OnPlayerInteractionChanged;
         _interactionChangedListeners += _constructionSystem.OnPlayerInteractionChanged;
+
+        // Enemy System
+        if(_enemyPrefab == null) SetupErrorMessage("Enemy game object prefab not linked");
+        Transform enemiesParent = transform.Find("Enemies");
+        _enemySystem = new EnemySystem(this, _enemyPrefab, _enemyPoolSize, enemiesParent);
     }
 
     void Start(){
