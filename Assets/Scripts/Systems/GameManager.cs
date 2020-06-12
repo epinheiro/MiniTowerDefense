@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 
     // Enumerators
     public enum InteractionMode {NoSelection, WallSelection, TowerSelection}
-    public enum Tags {Enemy, Core, Ground, Forest, UI, Construction, Blueprint}
+    public enum Tags {Enemy, Core, Ground, Forest, UI, Construction, Blueprint, Projectile}
 
     // Main game controller
     InteractionMode _lastPlayerInteraction = InteractionMode.NoSelection;
