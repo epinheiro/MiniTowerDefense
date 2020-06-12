@@ -34,7 +34,7 @@ public class ConstructionSystem
     }
 
     public void OnMouseClick(Vector3 point){
-        DettachCurrentStructure();
+        if(_mode != GameManager.InteractionMode.NoSelection) DettachCurrentStructure();
     }
 
     public void OnPlayerInteractionChanged(GameManager.InteractionMode nextState){
