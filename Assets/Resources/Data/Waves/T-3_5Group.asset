@@ -9,10 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd98849a6715cef4d9ba25e3578f20f4, type: 3}
-  m_Name: Wave1
+  m_Script: {fileID: 11500000, guid: e19276dd485b0024c9f7454f00a600b9, type: 3}
+  m_Name: Formation2_20_Group
   m_EditorClassIdentifier: 
-  totalTime: 30
-  spawnPointsUsed: 1
-  enemy1: {fileID: 11400000, guid: 57993b288f2002b4690b554fdde319d0, type: 2}
-  enemy2: {fileID: 0}
+  quantity: 5
+  formation: 1
