@@ -27,7 +27,7 @@ public class SpawnSystem
         _enemySystem = new EnemySystem(gameManager, enemyPrefab, poolSize, enemyParent);
 
         // Debug calls
-        _gameManager.StartCoroutine(SpawnEnemyWithDelay(1, 5)); // TODO - Futurely DELETE this call
+        _gameManager.StartCoroutine(SpawnEnemyWithDelay(_gameManager.SpawnPoints.transform.GetChild(0).transform.position, 1, 5)); // TODO - Futurely DELETE this call
     }
 
     public void ReturnEnemyElement(GameObject go){
@@ -39,11 +39,11 @@ public class SpawnSystem
     }
 
     //// Coroutines
-    IEnumerator SpawnEnemyWithDelay(float delaySeconds, int remainingEnemies){
+    IEnumerator SpawnEnemyWithDelay(Vector3 position, float delaySeconds, int remainingEnemies){
         if(remainingEnemies > 0){
-            _enemySystem.SpawnEnemyAt(GameObject.Find("EnemySpawnPoint-TEST").transform.position); // TODO - change this placeholder spawnpoint
+            _enemySystem.SpawnEnemyAt(position);
             yield return new WaitForSecondsRealtime(delaySeconds);
-            yield return SpawnEnemyWithDelay(delaySeconds, --remainingEnemies);
+            yield return SpawnEnemyWithDelay(position, delaySeconds, --remainingEnemies);
         }
     }
 }
