@@ -23,6 +23,10 @@ public class ProjectileSystem
         return go;
     }
 
+    public void ReturnProjectile(GameObject go){
+        _pool.ReturnInstance(go);
+    }
+
     //// Private methods
     void OnProjectileCallback(GameObject projectile, GameObject target){
         _pool.ReturnInstance(projectile);

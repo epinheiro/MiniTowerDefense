@@ -15,6 +15,7 @@ public class ProjectileBehaviour : MonoBehaviour
     bool isActive = false;
     [Range(0, 100)] float velocity = 5f;
     Transform _target;
+    EnemyBehaviour _targetBehaviour;
 
     //// MonoBehaviour methods
     void Start(){
@@ -23,7 +24,12 @@ public class ProjectileBehaviour : MonoBehaviour
 
     void Update(){
         if(isActive){
-            this.transform.position = Vector3.MoveTowards(transform.position, _target.position, velocity * Time.deltaTime);
+            if(_targetBehaviour.Active){
+                this.transform.position = Vector3.MoveTowards(transform.position, _target.position, velocity * Time.deltaTime);
+            }else{
+                _gameManager.Projectiles.ReturnProjectile(this.gameObject);
+                ResetProjectile();
+            }
         }
     }
 
@@ -41,6 +47,8 @@ public class ProjectileBehaviour : MonoBehaviour
         _target = target;
         isActive = true;
         _onCollisionCallback = callback;
+
+        _targetBehaviour = target.GetComponent<EnemyBehaviour>();
     }
 
     //// Private methods
