@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -90,34 +90,7 @@ public class SpawnSystem
             int enemiesSpawned = 0;
             
             try{
-                Vector3 destiny = _gameManager.Core.transform.position;
-                Vector3 diff = position - destiny;
-
-                for(int i=0; i<enemyNumber; i++){
-                    float modifier = (enemiesSpawned%2==0 ? -1 : 1) * enemiesSpawned;
-
-                    Vector3 spawnPoint;
-
-                    if(diff.x == 0){
-                        float modHorizontal = diff.z > 0 ? 1 : (diff.z == 0 ? 0 : -1);
-                        spawnPoint = new Vector3(position.x + modifier * modHorizontal, 0, position.z);
-                    }else{
-                        if(diff.z == 0){
-                            float modVertical   = diff.x > 0 ? 1 : (diff.x == 0 ? 0 : -1);
-                            spawnPoint = new Vector3(position.x, 0, position.z + modifier * modVertical);
-                        }else{
-                            if(Mathf.Sign(diff.z) == Mathf.Sign(diff.x)){
-                                spawnPoint = new Vector3((position.x + modifier), 0, (position.z + -modifier));
-                            }else{
-                                spawnPoint = new Vector3((position.x + modifier), 0, (position.z + modifier));
-                            }
-                        }
-                    }
-
-                    _enemySystem.SpawnEnemyAt(spawnPoint);
-
-                    enemiesSpawned++;
-                }
+                PositionEnemyLine(position, enemyNumber, ref enemiesSpawned);
 
             }catch(System.Exception){}
 
@@ -126,6 +99,37 @@ public class SpawnSystem
             if(enemiesSpawned < enemyNumber){ // If pool was insuficient to group spawn, try to delayed single
                 yield return SpawnDelayedSingleEnemy(position, 1, enemyNumber - enemiesSpawned);
             }
+        }
+    }
+
+    void PositionEnemyLine(Vector3 initialPosition, int enemyNumber, ref int enemiesSpawned ){
+        Vector3 spawnPoint;
+
+        Vector3 destiny = _gameManager.Core.transform.position;
+        Vector3 diff = initialPosition - destiny;
+
+        for(int i=0; i<enemyNumber; i++){
+            float modifier = (enemiesSpawned%2==0 ? -1 : 1) * enemiesSpawned;
+
+            if(diff.x == 0){
+                float modHorizontal = diff.z > 0 ? 1 : (diff.z == 0 ? 0 : -1);
+                spawnPoint = new Vector3(initialPosition.x + modifier * modHorizontal, 0, initialPosition.z);
+            }else{
+                if(diff.z == 0){
+                    float modVertical   = diff.x > 0 ? 1 : (diff.x == 0 ? 0 : -1);
+                    spawnPoint = new Vector3(initialPosition.x, 0, initialPosition.z + modifier * modVertical);
+                }else{
+                    if(Mathf.Sign(diff.z) == Mathf.Sign(diff.x)){
+                        spawnPoint = new Vector3((initialPosition.x + modifier), 0, (initialPosition.z + -modifier));
+                    }else{
+                        spawnPoint = new Vector3((initialPosition.x + modifier), 0, (initialPosition.z + modifier));
+                    }
+                }
+            }
+
+            _enemySystem.SpawnEnemyAt(spawnPoint);
+
+            enemiesSpawned++;
         }
     }
 }
