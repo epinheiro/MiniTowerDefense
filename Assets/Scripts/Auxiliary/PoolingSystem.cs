@@ -5,7 +5,7 @@ using UnityEngine;
 public class PrefabPoolingSystem
 {
     // Readonly variables
-    readonly Vector3 _positionZero = new Vector3(0,0,0);
+    readonly Vector3 _initialPosition = new Vector3(0,3,0);
     readonly Quaternion _rotationIdentity = Quaternion.identity;
 
     // Meta
@@ -34,12 +34,12 @@ public class PrefabPoolingSystem
     public GameObject GetInstance(){
         if(_currentIndex < Size){
             GameObject go = _pool[_currentIndex];
+            _currentIndex++;
 
-            go.name = string.Format("{0}-{1}", _poolPrefab.name, _iteration++);
+            go.name = string.Format("{0}-{1}", _poolPrefab.name, _iteration);
+            _iteration++;
 
             go.SetActive(true);
-
-            _currentIndex++;
 
             return go;
         }else{
@@ -91,7 +91,7 @@ public class PrefabPoolingSystem
     //// Private methods
     void InstantiateNewElements(GameObject prefab, int numberOfNewElements, Transform parent = null){
         for(int i=0; i<numberOfNewElements; i++){
-            GameObject go = MonoBehaviour.Instantiate(prefab, _positionZero, _rotationIdentity);
+            GameObject go = MonoBehaviour.Instantiate(prefab, _initialPosition, _rotationIdentity);
             go.SetActive(false);
 
             _pool.Add(go);
@@ -99,7 +99,7 @@ public class PrefabPoolingSystem
             if(parent != null){
                 Transform transform = go.transform;
                 transform.SetParent(parent);
-                transform.localPosition = _positionZero;
+                transform.localPosition = _initialPosition;
                 transform.localRotation = _rotationIdentity;
             }
         }
@@ -107,9 +107,7 @@ public class PrefabPoolingSystem
 
     void ResetGameObjectAttributes(GameObject go){
         go.SetActive(false);
-        go.transform.position = _positionZero;
+        go.transform.position = _initialPosition;
         go.transform.rotation = _rotationIdentity;
-
-        // TODO - specific call to reset specific behaviour from that MonoBehaviour
     }
 }
