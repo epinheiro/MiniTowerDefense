@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +11,7 @@ public class SpawnSystem
     EnemySystem _enemySystem;
 
     // Wave related variables
+    List<Vector3> _spawnPointList;
     public readonly int totalWaves = 5;
     int _currentWave = 0;
     public int Wave{
@@ -26,8 +27,12 @@ public class SpawnSystem
         this._gameManager = gameManager;
         _enemySystem = new EnemySystem(gameManager, enemyPrefab, poolSize, enemyParent);
 
+        PrepareSpawnPointList();
+
         // Debug calls
-        _gameManager.StartCoroutine(SpawnEnemyWithDelay(_gameManager.SpawnPoints.transform.GetChild(0).transform.position, 1, 5)); // TODO - Futurely DELETE this call
+        foreach(Vector3 spawn in _spawnPointList){
+            _gameManager.StartCoroutine(SpawnEnemyWithDelay(spawn, 1, 5)); // TODO - Futurely DELETE this call
+        }
     }
 
     public void ReturnEnemyElement(GameObject go){
@@ -35,6 +40,14 @@ public class SpawnSystem
     }
 
     //// Private methods
+    void PrepareSpawnPointList(){
+        _spawnPointList = new List<Vector3>();
+        Transform spawnPoints = _gameManager.SpawnPoints.transform;
+        for(int i=0; i<spawnPoints.childCount; i++){
+            _spawnPointList.Add(spawnPoints.GetChild(i).transform.position);
+        }
+    }
+
     void OnWaveNumberChange(){
     }
 
