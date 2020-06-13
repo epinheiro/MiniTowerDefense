@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -41,9 +41,19 @@ public class SpawnSystem
     //// Coroutines
     IEnumerator SpawnEnemyWithDelay(Vector3 position, float delaySeconds, int remainingEnemies){
         if(remainingEnemies > 0){
-            _enemySystem.SpawnEnemyAt(position);
+            bool worked = false;
+            try{
+                _enemySystem.SpawnEnemyAt(position);
+                worked = true;
+            }catch(System.Exception){}
+
             yield return new WaitForSecondsRealtime(delaySeconds);
-            yield return SpawnEnemyWithDelay(position, delaySeconds, --remainingEnemies);
+
+            if(worked){ 
+                yield return SpawnEnemyWithDelay(position, delaySeconds, --remainingEnemies);
+            }else{ // Wait to be possible to instantiate more enemies
+                yield return SpawnEnemyWithDelay(position, delaySeconds, remainingEnemies);
+            }
         }
     }
 }
