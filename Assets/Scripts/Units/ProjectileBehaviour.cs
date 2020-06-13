@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ProjectileBehaviour : MonoBehaviour
 {
+    // Game manager
+    GameManager _gameManager;
+
     // Delegation
     public delegate void CollisionCallback(GameObject projectile, GameObject target);
     CollisionCallback _onCollisionCallback;
@@ -14,6 +17,10 @@ public class ProjectileBehaviour : MonoBehaviour
     Transform _target;
 
     //// MonoBehaviour methods
+    void Start(){
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();  // TODO - is it better another access method?
+    }
+
     void Update(){
         if(isActive){
             this.transform.position = Vector3.MoveTowards(transform.position, _target.position, velocity * Time.deltaTime);
@@ -25,7 +32,6 @@ public class ProjectileBehaviour : MonoBehaviour
             case GameManager.Tags.Enemy:
                 _onCollisionCallback(this.gameObject, collision.gameObject);
                 ResetProjectile();
-                // TODO - Return to pool
                 break;
         }
     }
