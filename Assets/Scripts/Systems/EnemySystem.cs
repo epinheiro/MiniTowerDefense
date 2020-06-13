@@ -21,8 +21,12 @@ public class EnemySystem
 
     public GameObject SpawnEnemyAt(Vector3 position){
         GameObject enemy = _pool.GetInstance();
-        enemy.transform.position = position;
+        enemy.GetComponent<EnemyBehaviour>().SetEnemyAttributes(position);
         return enemy;
+    }
+
+    public void ReturnEnemyElement(GameObject go){
+        _pool.ReturnInstance(go);
     }
 
     //// Coroutines

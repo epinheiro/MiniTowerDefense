@@ -57,7 +57,7 @@ public class CoreBehaviour : MonoBehaviour
 
     void ClearMenaceObjectList(){
         foreach(EnemyBehaviour eb in _menaces){
-            Destroy(eb.gameObject);
+            eb.EnemyHit();
         }
         _menaces.Clear();
     }

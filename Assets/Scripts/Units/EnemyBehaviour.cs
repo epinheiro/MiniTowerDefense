@@ -5,6 +5,16 @@ using UnityEngine.AI;
 
 public class EnemyBehaviour : MonoBehaviour
 {
+    // Game manager
+    GameManager _gameManager;
+
+    // Control
+    bool _isActive = false;
+    public bool Active{
+        get { return _isActive; }
+    }
+
+    // Attributes
     GameObject _coreReference;
     NavMeshAgent _aiAgent;
 
@@ -14,15 +24,10 @@ public class EnemyBehaviour : MonoBehaviour
     }
 
     //// MonoBehaviour methods
-    void Start()
-    {
-        _coreReference = GameObject.Find("GameManager").GetComponent<GameManager>().Core; // TODO futurely will be changed to a Init method
+    void Start(){
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();  // TODO - is it better another access method?
+        _coreReference = _gameManager.Core; 
         ChangeAgentDestination(_coreReference.transform.position);
-    }
-
-    void Update()
-    {
-
     }
 
     void OnTriggerEnter(Collider other){
@@ -34,8 +39,25 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
+    //// Public API
+    public void SetEnemyAttributes(Vector3 spawnPoint){
+        _isActive = true;
+        this.transform.position = spawnPoint;
+    }
+
+    public void EnemyHit(){
+        Debug.Log("DAMAGE! in " + this.name);
+        // TODO - proper DAMAGE calculation
+        _gameManager.Enemies.ReturnEnemyElement(this.gameObject);
+        ResetEnemy();
+    }
+
 
     //// Private methods
+    void ResetEnemy(){
+        _isActive = false;
+    }
+
     void ChangeAgentDestination(Vector3 goToPosition){
         _aiAgent.destination = goToPosition; 
     }

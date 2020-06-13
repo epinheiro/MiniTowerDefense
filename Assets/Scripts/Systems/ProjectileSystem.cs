@@ -26,6 +26,6 @@ public class ProjectileSystem
     //// Private methods
     void OnProjectileCallback(GameObject projectile, GameObject target){
         _pool.ReturnInstance(projectile);
-        Debug.Log("DAMAGE! in " + target.gameObject.name); // TODO - use target to process damage!
+        target.GetComponent<EnemyBehaviour>().EnemyHit();
     }
 }

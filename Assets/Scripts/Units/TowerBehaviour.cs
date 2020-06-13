@@ -55,17 +55,29 @@ public class TowerBehaviour : ConstructionBehaviour
     IEnumerator CheckMenacesCoroutine(){
         while(true){
             if(_menaces.Count > 0){
+                List<GameObject> menacesLost = new List<GameObject>();
+                
                 int count = 0;
+
                 for(int i=0; i<_menaces.Count; i++){
-                    if(count <= _lockdownEnemiesLimit){
+                    if(_menaces[i].GetComponent<EnemyBehaviour>().Active){
+                        if(count <= _lockdownEnemiesLimit){
                         Debug.Log(string.Format("SHOOT {0}", _menaces[i])); // TODO - debug print
                         _gameManager.Projectiles.SpawnProjectile(this.transform, _menaces[i].transform);
                         count++;
+                        }else{
+                            break;
+                        }
                     }else{
-                        break;
+                        menacesLost.Add(_menaces[i]);
                     }
                 }
+
+                foreach(GameObject menace in menacesLost){
+                    _menaces.Remove(menace);
+                }
             }
+
             yield return new WaitForSecondsRealtime(_secondsToCheckMenace);
         }
     }
