@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e19276dd485b0024c9f7454f00a600b9, type: 3}
-  m_Name: Formation2_20_Group
+  m_Name: T-3_5Group
   m_EditorClassIdentifier: 
   quantity: 5
   formation: 1

@@ -10,6 +10,10 @@ public class SpawnSystem
     // Game manager
     GameManager _gameManager;
 
+    // Data
+    GameWaveDefinition _gameWaveDefinition;
+    WaveData[] waves;
+
     // Enemies
     EnemySystem _enemySystem;
 
@@ -32,10 +36,9 @@ public class SpawnSystem
 
         PrepareSpawnPointList();
 
-        // Debug calls
-        foreach(Vector3 spawn in _spawnPointList){
-            Spawn(5, spawn, SpawnTypes.LineGroup);
-        }
+        LoadGameWaveDefinition();
+
+        _gameManager.StartCoroutine(BeginSpawns());
     }
 
     public void ReturnEnemyElement(GameObject go){
@@ -49,6 +52,11 @@ public class SpawnSystem
         for(int i=0; i<spawnPoints.childCount; i++){
             _spawnPointList.Add(spawnPoints.GetChild(i).transform.position);
         }
+    }
+
+    void LoadGameWaveDefinition(){
+        _gameWaveDefinition = Resources.Load("Data/Waves/Game") as GameWaveDefinition;
+        waves = _gameWaveDefinition.waves;
     }
 
     void OnWaveNumberChange(){
@@ -67,6 +75,36 @@ public class SpawnSystem
     }
 
     //// Coroutines
+    IEnumerator BeginSpawns(){
+        float timeBetweenWaves = 10;
+
+        while(_currentWave < waves.Length){
+            Debug.Log(string.Format("Beggining wave {0}", _currentWave));
+            WaveData wave = waves[_currentWave];
+
+            float totalTime = wave.totalTime;
+
+            // wave.spawnPointsUsed // TODO - future implement
+
+            EnemyWave enemy1 = wave.enemy1;
+            if(enemy1 != null){
+                Spawn(enemy1.quantity, _spawnPointList[Random.Range(0, _spawnPointList.Count)], enemy1.formation);
+
+                yield return new WaitForSecondsRealtime(timeBetweenWaves);
+                totalTime -= timeBetweenWaves;
+            }
+
+            EnemyWave enemy2 = wave.enemy2;
+            if(enemy2 != null){
+                Spawn(enemy2.quantity, _spawnPointList[Random.Range(0, _spawnPointList.Count)], enemy2.formation);
+            }
+
+            yield return new WaitForSecondsRealtime(totalTime);
+
+            _currentWave++;
+        }
+    }
+
     IEnumerator SpawnDelayedSingleEnemy(Vector3 position, float delaySeconds, int remainingEnemies){
         if(remainingEnemies > 0){
             bool worked = false;
