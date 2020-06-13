@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class TowerBehaviour : ConstructionBehaviour
 {
+    // Game manager
+    GameManager _gameManager;
+    
     // Balance variables
     readonly float _secondsToCheckMenace = 0.5f;
     readonly int _lockdownEnemiesLimit = 2;
@@ -17,6 +20,8 @@ public class TowerBehaviour : ConstructionBehaviour
     //// MonoBehaviour methods
     protected override void Awake(){
         base.Awake();
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>(); // TODO - is it better another access method?
+
         _menaces = new List<GameObject>();
         _perceptionTrigger = this.GetComponent<SphereCollider>();
     }
@@ -53,7 +58,8 @@ public class TowerBehaviour : ConstructionBehaviour
                 int count = 0;
                 for(int i=0; i<_menaces.Count; i++){
                     if(count <= _lockdownEnemiesLimit){
-                        Debug.Log(string.Format("SHOOT {0}", _menaces[i])); // TODO - change to actual projectile call
+                        Debug.Log(string.Format("SHOOT {0}", _menaces[i])); // TODO - debug print
+                        _gameManager.Projectiles.SpawnProjectile(this.transform, _menaces[i].transform);
                         count++;
                     }else{
                         break;

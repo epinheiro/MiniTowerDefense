@@ -16,9 +16,9 @@ public class ProjectileSystem
         this._pool = new PrefabPoolingSystem(prefab, poolSize, parent);
     }
 
-    public GameObject SpawnProjectile(Vector3 origin, Vector3 target){
+    public GameObject SpawnProjectile(Transform origin, Transform target){
         GameObject go = _pool.GetInstance();
-        go.transform.position = origin;
+        go.transform.position = origin.position;
         go.GetComponent<ProjectileBehaviour>().SetProjectionAttributes(target, OnProjectileCallback);
         return go;
     }

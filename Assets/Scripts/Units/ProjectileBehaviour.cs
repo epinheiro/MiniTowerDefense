@@ -11,12 +11,12 @@ public class ProjectileBehaviour : MonoBehaviour
     // Control variables
     bool isActive = false;
     [Range(0, 100)] float velocity = 5f;
-    Vector3? _target;
+    Transform _target;
 
     //// MonoBehaviour methods
     void Update(){
         if(isActive){
-            this.transform.position = Vector3.MoveTowards(transform.position, _target.Value, velocity * Time.deltaTime);
+            this.transform.position = Vector3.MoveTowards(transform.position, _target.position, velocity * Time.deltaTime);
         }
     }
 
@@ -31,7 +31,7 @@ public class ProjectileBehaviour : MonoBehaviour
     }
 
     //// Public API
-    public void SetProjectionAttributes(Vector3 target, CollisionCallback callback){
+    public void SetProjectionAttributes(Transform target, CollisionCallback callback){
         _target = target;
         isActive = true;
         _onCollisionCallback = callback;
