@@ -47,11 +47,16 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     GameObject _projectilePrefab = null;
 
-    // Core related variables
+    // Map related variables
     [SerializeField]
-    GameObject _coreGameObject = null;
+    MapObject _mapObject = null;
+    GameObject _core;
+    GameObject _spawnPoints;
     public GameObject Core{
-        get { return _coreGameObject; }
+        get { return _core; }
+    }
+    public GameObject SpawnPoints{
+        get { return _spawnPoints; }
     }
 
     // UI related variables
@@ -71,7 +76,12 @@ public class GameManager : MonoBehaviour
 
     //// MonoBehaviour methods
     void Awake(){
-        if(_coreGameObject == null) SetupErrorMessage("Core game object not linked");
+        if(_mapObject == null) SetupErrorMessage("Map game object not linked");
+        else{
+            _core = _mapObject.Core;
+            _spawnPoints = _mapObject.SpawnPoints;
+        }
+
         if(_inputControllerReference == null) SetupErrorMessage("UIController game object not linked");
         
         // Construction System
