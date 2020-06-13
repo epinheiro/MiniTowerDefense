@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
 
     // Map related variables
     [SerializeField]
-    MapObject _mapObject = null;
+    GameObject _mapObject = null;
     GameObject _core;
     GameObject _spawnPoints;
     public GameObject Core{
@@ -78,8 +78,8 @@ public class GameManager : MonoBehaviour
     void Awake(){
         if(_mapObject == null) SetupErrorMessage("Map game object not linked");
         else{
-            _core = _mapObject.Core;
-            _spawnPoints = _mapObject.SpawnPoints;
+            _core = _mapObject.transform.Find("Core").gameObject;
+            _spawnPoints = _mapObject.transform.Find("SpawnPoints").gameObject;
         }
 
         if(_inputControllerReference == null) SetupErrorMessage("UIController game object not linked");
