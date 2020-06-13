@@ -31,25 +31,13 @@ public class GameManager : MonoBehaviour
     PlayerInteractionAction _interactionChangedListeners;
 
     // Wave and Enemies related variables
-    EnemySystem _enemySystem;
-    public EnemySystem Enemies{
-        get { return _enemySystem; }
+    SpawnSystem _spawn;
+    public SpawnSystem Enemies{
+        get { return _spawn; }
     }
 
     [SerializeField]
     GameObject _enemyPrefab = null;
-
-    public readonly int totalWaves = 5;
-
-    int _currentWave = 0;
-
-    public int Wave{
-        get { return _currentWave; }
-        set {
-            _currentWave = value;
-            OnWaveNumberChange();
-        }
-    }
 
     // Projectile related variables
     ProjectileSystem _projectileSystem;
@@ -105,7 +93,7 @@ public class GameManager : MonoBehaviour
         // Enemy System
         if(_enemyPrefab == null) SetupErrorMessage("Enemy game object prefab not linked");
         Transform enemiesParent = transform.Find("Enemies");
-        _enemySystem = new EnemySystem(this, _enemyPrefab, _enemyPoolSize, enemiesParent);
+        _spawn = new SpawnSystem(this, _enemyPrefab, _enemyPoolSize, enemiesParent);
     }
 
     void Start(){
@@ -128,10 +116,6 @@ public class GameManager : MonoBehaviour
     }
 
     //// Private methods
-    void OnWaveNumberChange(){
-
-    }
-
     void OnChangePlayerInteraction(){
         if(_interactionChangedListeners != null) {
             _interactionChangedListeners(Interaction);

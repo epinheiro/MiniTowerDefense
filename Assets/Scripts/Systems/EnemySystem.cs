@@ -11,12 +11,9 @@ public class EnemySystem
     PrefabPoolingSystem _pool;
     
     //// Public API
-    public EnemySystem(GameManager gameManager, GameObject _enemyPrefab, int poolSize, Transform enemyParent){
+    public EnemySystem(GameManager gameManager, GameObject prefab, int poolSize, Transform enemyParent){
         this._gameManager = gameManager;
-        this._pool = new PrefabPoolingSystem(_enemyPrefab, poolSize, enemyParent);
-
-        // Debug calls
-        _gameManager.StartCoroutine(SpawnEnemyWithDelay(1, 5)); // TODO - Futurely DELETE this call
+        this._pool = new PrefabPoolingSystem(prefab, poolSize, enemyParent);
     }
 
     public GameObject SpawnEnemyAt(Vector3 position){
@@ -27,14 +24,5 @@ public class EnemySystem
 
     public void ReturnEnemyElement(GameObject go){
         _pool.ReturnInstance(go);
-    }
-
-    //// Coroutines
-    IEnumerator SpawnEnemyWithDelay(float delaySeconds, int remainingEnemies){
-        if(remainingEnemies > 0){
-            SpawnEnemyAt(GameObject.Find("EnemySpawnPoint-TEST").transform.position); // TODO - change this placeholder spawnpoint
-            yield return new WaitForSecondsRealtime(delaySeconds);
-            yield return SpawnEnemyWithDelay(delaySeconds, --remainingEnemies);
-        }
     }
 }
