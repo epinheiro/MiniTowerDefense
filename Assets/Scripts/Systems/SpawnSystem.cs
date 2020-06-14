@@ -12,7 +12,9 @@ public class SpawnSystem
 
     // Data
     GameWaveDefinition _gameWaveDefinition;
-    WaveData[] waves;
+    WaveData[] _waves;
+    EnemyAttributes _enemy1Attributes;
+    EnemyAttributes _enemy2Attributes;
 
     // Enemies
     EnemySystem _enemySystem;
@@ -36,7 +38,7 @@ public class SpawnSystem
 
         PrepareSpawnPointList();
 
-        LoadGameWaveDefinition();
+        LoadDataFiles();
 
         _gameManager.StartCoroutine(BeginSpawns());
     }
@@ -54,9 +56,12 @@ public class SpawnSystem
         }
     }
 
-    void LoadGameWaveDefinition(){
+    void LoadDataFiles(){
         _gameWaveDefinition = Resources.Load("Data/Waves/Game") as GameWaveDefinition;
-        waves = _gameWaveDefinition.waves;
+        _waves = _gameWaveDefinition.waves;
+
+        _enemy1Attributes = Resources.Load("Data/Units/Enemy1") as EnemyAttributes;
+        _enemy2Attributes = Resources.Load("Data/Units/Enemy2") as EnemyAttributes;
     }
 
     void OnWaveNumberChange(){
@@ -78,23 +83,17 @@ public class SpawnSystem
     IEnumerator BeginSpawns(){
         float timeBetweenWaves = 10;
 
-        while(_currentWave < waves.Length){
+        while(_currentWave < _waves.Length){
             Debug.Log(string.Format("Beggining wave {0}", _currentWave));
-            WaveData wave = waves[_currentWave];
+            WaveData wave = _waves[_currentWave];
 
             float totalTime = wave.totalTime;
 
             // wave.spawnPointsUsed // TODO - future implement
 
-            ////// TODO - change to ScriptableObject read //////
-            EnemyAttributes attributes = ScriptableObject.CreateInstance(typeof(EnemyAttributes)) as EnemyAttributes;
-            attributes.life = 3;
-            attributes.speed = 0.5f;
-            ////// TODO - change to ScriptableObject read //////
-
             EnemyWave enemy1 = wave.enemy1;
             if(enemy1 != null){
-                Spawn(enemy1.quantity, _spawnPointList[Random.Range(0, _spawnPointList.Count)], enemy1.formation, attributes);
+                Spawn(enemy1.quantity, _spawnPointList[Random.Range(0, _spawnPointList.Count)], enemy1.formation, _enemy1Attributes);
 
                 yield return new WaitForSecondsRealtime(timeBetweenWaves);
                 totalTime -= timeBetweenWaves;
@@ -102,7 +101,7 @@ public class SpawnSystem
 
             EnemyWave enemy2 = wave.enemy2;
             if(enemy2 != null){
-                Spawn(enemy2.quantity, _spawnPointList[Random.Range(0, _spawnPointList.Count)], enemy2.formation, attributes);
+                Spawn(enemy2.quantity, _spawnPointList[Random.Range(0, _spawnPointList.Count)], enemy2.formation, _enemy2Attributes);
             }
 
             yield return new WaitForSecondsRealtime(totalTime);
