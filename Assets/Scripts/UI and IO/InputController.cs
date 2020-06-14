@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class InputController : MonoBehaviour
 {
-    public enum Layout {inGame, gameOver} // TODO - new layouts - , constructionConfirmation, constructionDestruction}
-
     // Delegation
     public delegate void PassVector3(Vector3 vector);
 
@@ -21,6 +20,11 @@ public class InputController : MonoBehaviour
     GameObject _overlayUI;
     GameObject _endGamePopup;
     GameObject _constructionPopup;
+    Text _constructionText;
+    Button _constructionButton1Reference;
+    Text _constructionButton1Text;
+    Button _constructionButton2Reference;
+    Text _constructionButton2Text;
     Button _wallButtonReference;
     Button _towerButtonReference;
     GameManager _gameManager;
@@ -48,9 +52,18 @@ public class InputController : MonoBehaviour
 
         GameObject _popups = this.transform.Find("Popups").gameObject;
         _endGamePopup = _popups.transform.Find("EndGame").gameObject;
-        _constructionPopup = _popups.transform.Find("Construction").gameObject; // TODO - proper control
 
-        ChangeLayout(Layout.inGame);
+        _constructionPopup = _popups.transform.Find("Construction").gameObject;
+        _constructionText = _constructionPopup.transform.Find("Text").GetComponent<Text>();
+        Transform buttonsGroup = _constructionPopup.transform.Find("Buttons");
+        Transform button1 = buttonsGroup.GetChild(0);
+        _constructionButton1Reference = button1.GetComponent<Button>();
+        _constructionButton1Text = button1.Find("Text").GetComponent<Text>();
+        Transform button2 = buttonsGroup.GetChild(1);
+        _constructionButton2Reference = button2.GetComponent<Button>();
+        _constructionButton2Text =  button2.Find("Text").GetComponent<Text>();
+
+        SetInGameLayout();
     }
 
     void Start(){
@@ -129,23 +142,29 @@ public class InputController : MonoBehaviour
         _mouseClickListeners += listenerCallback;
     }
 
-    public void ChangeLayout(Layout layout){
-        switch(layout){
-            case Layout.inGame:
-                SetUIElementActive(_overlayUI, true);
-                SetUIElementActive(_endGamePopup, false);
-                SetUIElementActive(_constructionPopup, false);
-                break;
+    // Layout change
+    public void SetInGameLayout(){
+        SetUIElementActive(_overlayUI, true);
+        SetUIElementActive(_endGamePopup, false);
+        SetUIElementActive(_constructionPopup, false);
+    }
+    public void SetGameOverLayout(){
+        SetUIElementActive(_overlayUI, false);
+        SetUIElementActive(_endGamePopup, true);
+        SetUIElementActive(_constructionPopup, false);
+    }
+    public void SetConstructionPopupLayout(string mainText, string button1Text, UnityAction button1Callback, string button2Text, UnityAction button2Callback){
+        SetUIElementActive(_overlayUI, true);
+        SetUIElementActive(_endGamePopup, false);
+        SetUIElementActive(_constructionPopup, true);
 
-            case Layout.gameOver:
-                SetUIElementActive(_overlayUI, false);
-                SetUIElementActive(_endGamePopup, true);
-                SetUIElementActive(_constructionPopup, false);
-                break;
-
-            default:
-                throw new System.Exception(string.Format("Not expected layout {0}", layout));
-        }
+        _constructionText.text = mainText;
+        _constructionButton1Reference.onClick.RemoveAllListeners();
+        _constructionButton1Reference.onClick.AddListener(button1Callback);
+        _constructionButton1Text.text = button1Text;
+        _constructionButton2Reference.onClick.RemoveAllListeners();
+        _constructionButton2Reference.onClick.AddListener(button2Callback);
+        _constructionButton2Text.text = button2Text;
     }
 
     //// Event callbacks
@@ -156,14 +175,6 @@ public class InputController : MonoBehaviour
 
     public void OnClickWallButton(){
         _gameManager.PlayerInteractionClicked(GameManager.InteractionMode.WallSelection);
-    }
-
-    public void OnClickBottomButton1(){
-        Debug.Log("Button 1 clicked"); // TODO - proper logic
-    }
-
-    public void OnClickBottomButton2(){
-        Debug.Log("Button 2 clicked"); // TODO - proper logic
     }
 
     // Buttons hovered

@@ -119,7 +119,7 @@ public class GameManager : MonoBehaviour
     public void EndGameProcedure(){
         // Debug.Log("YOU LOST!"); // TODO - insert debug flag?
         this.StopAllCoroutines();
-        Input.ChangeLayout(InputController.Layout.gameOver);
+        Input.SetGameOverLayout();
     }
 
     //// Public click callbacks
