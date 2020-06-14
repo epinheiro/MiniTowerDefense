@@ -7,14 +7,16 @@ public class UIController : MonoBehaviour
     public enum Layout {inGame, gameOver} // TODO - new layouts - , constructionConfirmation, constructionDestruction}
 
     GameObject _overlayUI;
-    GameObject _popups;
     GameObject _endGamePopup;
+    GameObject _constructionPopup;
 
     //// MonoBehaviour
     void Awake(){
         _overlayUI = this.transform.Find("OverlayUI").gameObject;
-        _popups = this.transform.Find("Popups").gameObject;
+
+        GameObject _popups = this.transform.Find("Popups").gameObject;
         _endGamePopup = _popups.transform.Find("EndGame").gameObject;
+        _constructionPopup = _popups.transform.Find("Construction").gameObject; // TODO - proper control
 
         ChangeLayout(Layout.inGame);
     }
@@ -25,11 +27,13 @@ public class UIController : MonoBehaviour
             case Layout.inGame:
                 SetActive(_overlayUI, true);
                 SetActive(_endGamePopup, false);
+                SetActive(_constructionPopup, false);
                 break;
 
             case Layout.gameOver:
                 SetActive(_overlayUI, false);
                 SetActive(_endGamePopup, true);
+                SetActive(_constructionPopup, false);
                 break;
 
             default:
