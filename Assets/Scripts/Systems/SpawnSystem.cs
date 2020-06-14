@@ -21,7 +21,6 @@ public class SpawnSystem
 
     // Wave related variables
     List<Vector3> _spawnPointList;
-    public readonly int totalWaves = 5;
     int _currentWave = 0;
     public int Wave{
         get { return _currentWave; }
@@ -106,7 +105,7 @@ public class SpawnSystem
 
             yield return new WaitForSecondsRealtime(totalTime);
 
-            _currentWave++;
+            Wave++;
         }
     }
 
