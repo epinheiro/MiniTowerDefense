@@ -19,6 +19,7 @@ public class EnemySystem
     public GameObject SpawnEnemyAt(Vector3 position, EnemyAttributes attributes){
         GameObject enemy = _pool.GetInstance();
         enemy.GetComponent<EnemyBehaviour>().SetEnemyAttributes(position, attributes);
+        enemy.GetComponent<Renderer>().material.color = attributes.color;
         return enemy;
     }
 

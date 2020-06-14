@@ -6,4 +6,6 @@ using UnityEngine;
 public class EnemyAttributes : ScriptableObject{
     public int life;
     public float speed;
+
+    public Color color;
 }
