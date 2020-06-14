@@ -88,8 +88,8 @@ public class TowerBehaviour : ConstructionBehaviour
         _perceptionTrigger.enabled = false;
     }
 
-    public override void Activate(){
-        base.Activate();
+    public override void Activate(ConstructionSystem.GameObjectAction callback){
+        base.Activate(callback);
         _perceptionTrigger.enabled = true;
     }
 }

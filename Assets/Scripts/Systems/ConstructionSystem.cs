@@ -7,6 +7,9 @@ public class ConstructionSystem
     // Meta
     GameManager _gameManager;
 
+    // Delegation
+    public delegate void GameObjectAction(GameObject gameObject);
+
     // Control
     GameManager.InteractionMode _mode;
 
@@ -91,6 +94,10 @@ public class ConstructionSystem
                     _gameManager.Input.SetInGameLayout();
                     break;
 
+                case GameManager.InteractionMode.DestructionConfirmation:
+                    _gameManager.Input.SetInGameLayout();
+                    break;
+
             }
 
             // Get new
@@ -124,10 +131,10 @@ public class ConstructionSystem
         );
     }
 
-    void SetDestructionLayout(){
+    void SetDestructionLayout(GameObject gameObject){
         _gameManager.Input.SetConstructionPopupLayout(
             "Destroy this?",
-            "Destroy", OnDestroyConfirmation,
+            "Destroy", () => {OnDestroyConfirmation(gameObject);},
             "Cancel", OnDestroyCancelation
         );
     }
@@ -142,7 +149,7 @@ public class ConstructionSystem
 
     // Callbacks
     void OnConstructionConfirmation(){
-        _currentStructureBehaviour.Activate();
+        _currentStructureBehaviour.Activate(OnStructureClick);
         _currentStructureBehaviour = null;
         _gameManager.Interaction = GameManager.InteractionMode.NoSelection;
         _gameManager.Input.SetInGameLayout();
@@ -156,11 +163,20 @@ public class ConstructionSystem
         _gameManager.Input.SetInGameLayout();
     }
 
-    void OnDestroyConfirmation(){
-        Debug.Log("OnDestroyConfirmation"); // TODO - implement
+    void OnDestroyConfirmation(GameObject gameObject){
+        ReturnConstructionToPool(gameObject);
+        _currentStructureBehaviour = null;
+        _gameManager.Interaction = GameManager.InteractionMode.NoSelection;
+
+        _gameManager.Input.SetInGameLayout();
     }
 
     void OnDestroyCancelation(){
-        Debug.Log("OnDestroyCancelation"); // TODO - implement
+        _gameManager.Input.SetInGameLayout();
+    }
+
+    void OnStructureClick(GameObject gameObjectClicked){
+        _gameManager.Interaction = GameManager.InteractionMode.DestructionConfirmation;
+        SetDestructionLayout(gameObjectClicked);
     }
 }

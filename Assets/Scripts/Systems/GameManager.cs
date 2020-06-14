@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     readonly int _projectilePoolSize = 60;
 
     // Enumerators
-    public enum InteractionMode {NoSelection, WallSelection, TowerSelection, ConstructionConfirmation}
+    public enum InteractionMode {NoSelection, WallSelection, TowerSelection, ConstructionConfirmation, DestructionConfirmation}
     public enum Tags {Enemy, Core, Ground, Forest, UI, Construction, Blueprint, Projectile}
 
     // Main game controller
