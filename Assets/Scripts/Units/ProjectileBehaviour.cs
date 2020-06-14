@@ -12,8 +12,8 @@ public class ProjectileBehaviour : MonoBehaviour
     CollisionCallback _onCollisionCallback;
 
     // Control variables
-    bool isActive = false;
-    [Range(0, 100)] float velocity = 5f;
+    bool _isActive = false;
+    float _velocity = 5f; // CHECK - Hardcoded velocity
     Transform _target;
     EnemyBehaviour _targetBehaviour;
 
@@ -23,9 +23,9 @@ public class ProjectileBehaviour : MonoBehaviour
     }
 
     void Update(){
-        if(isActive){
+        if(_isActive){
             if(_targetBehaviour.Active){
-                this.transform.position = Vector3.MoveTowards(transform.position, _target.position, velocity * Time.deltaTime);
+                this.transform.position = Vector3.MoveTowards(transform.position, _target.position, _velocity * Time.deltaTime);
             }else{
                 _gameManager.Projectiles.ReturnProjectile(this.gameObject);
                 ResetProjectile();
@@ -45,7 +45,7 @@ public class ProjectileBehaviour : MonoBehaviour
     //// Public API
     public void SetProjectionAttributes(Transform target, CollisionCallback callback){
         _target = target;
-        isActive = true;
+        _isActive = true;
         _onCollisionCallback = callback;
 
         _targetBehaviour = target.GetComponent<EnemyBehaviour>();
@@ -54,7 +54,7 @@ public class ProjectileBehaviour : MonoBehaviour
     //// Private methods
     void ResetProjectile(){
         _target = null;
-        isActive = false;
+        _isActive = false;
         _onCollisionCallback = null;
     }
 }
