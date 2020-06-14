@@ -201,6 +201,11 @@ public class InputController : MonoBehaviour
                 SetToggleButton(true, _wallButtonReference);
                 SetToggleButton(false, _towerButtonReference);
                 break;
+
+            case GameManager.InteractionMode.ConstructionConfirmation:
+                SetToggleButton(false, _wallButtonReference);
+                SetToggleButton(false, _towerButtonReference);
+                break;
         }
     }
 

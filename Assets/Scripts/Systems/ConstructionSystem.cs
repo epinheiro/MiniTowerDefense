@@ -14,6 +14,7 @@ public class ConstructionSystem
     PrefabPoolingSystem _towerPool;
     PrefabPoolingSystem _wallPool;
 
+    // Structure controls
     GameObject _currentStructurePlacement;
     ConstructionBehaviour _currentStructureBehaviour;
 
@@ -34,7 +35,12 @@ public class ConstructionSystem
     }
 
     public void OnMouseClick(Vector3 point){
-        if(_mode != GameManager.InteractionMode.NoSelection) DettachCurrentStructure();
+        switch(_mode){
+            case GameManager.InteractionMode.TowerSelection:
+            case GameManager.InteractionMode.WallSelection:
+                DettachCurrentStructure();
+                break;
+        }
     }
 
     public void OnPlayerInteractionChanged(GameManager.InteractionMode nextState){
@@ -43,11 +49,9 @@ public class ConstructionSystem
 
     //// Private methods
     void DettachCurrentStructure(){
-        _currentStructureBehaviour.Activate();
-        _currentStructureBehaviour = null;
-        
         _currentStructurePlacement = null;
-        _gameManager.Interaction = GameManager.InteractionMode.NoSelection;
+        _gameManager.Interaction = GameManager.InteractionMode.ConstructionConfirmation;
+        SetConstructionConfirmationLayout();
     }
 
     void UpdateCurrentStructure(GameManager.InteractionMode currentState, GameManager.InteractionMode nextState){
@@ -71,12 +75,22 @@ public class ConstructionSystem
             // Return old
             switch(currentState){ // Important - there is a validation in GameManager Interaction setter that checks if the current and next are the same
                 case GameManager.InteractionMode.TowerSelection:
-                    _towerPool.ReturnInstance(_currentStructurePlacement);
+                    if(nextState != GameManager.InteractionMode.ConstructionConfirmation){
+                        _towerPool.ReturnInstance(_currentStructurePlacement);
+                    }
                     break;
 
                 case GameManager.InteractionMode.WallSelection:
-                    _wallPool.ReturnInstance(_currentStructurePlacement);
+                    if(nextState != GameManager.InteractionMode.ConstructionConfirmation){
+                        _wallPool.ReturnInstance(_currentStructurePlacement);
+                    }
                     break;
+
+                case GameManager.InteractionMode.ConstructionConfirmation:
+                    ReturnConstructionToPool(_currentStructureBehaviour.gameObject);
+                    _gameManager.Input.SetInGameLayout();
+                    break;
+
             }
 
             // Get new
@@ -99,5 +113,54 @@ public class ConstructionSystem
         ConstructionBehaviour constructionBehaviour = gameObject.GetComponent<ConstructionBehaviour>();
         constructionBehaviour.ResetToBlueprint();
         _currentStructureBehaviour = constructionBehaviour;
+    }
+
+    // SetLayout
+    void SetConstructionConfirmationLayout(){
+        _gameManager.Input.SetConstructionPopupLayout(
+            "Construct here?",
+            "Construct", OnConstructionConfirmation,
+            "Cancel", OnConstructionCancelation
+        );
+    }
+
+    void SetDestructionLayout(){
+        _gameManager.Input.SetConstructionPopupLayout(
+            "Destroy this?",
+            "Destroy", OnDestroyConfirmation,
+            "Cancel", OnDestroyCancelation
+        );
+    }
+
+    void ReturnConstructionToPool(GameObject gameObject){
+        try{
+            _towerPool.ReturnInstance(gameObject);
+        }catch(System.Exception){
+            _wallPool.ReturnInstance(gameObject);
+        }
+    }
+
+    // Callbacks
+    void OnConstructionConfirmation(){
+        _currentStructureBehaviour.Activate();
+        _currentStructureBehaviour = null;
+        _gameManager.Interaction = GameManager.InteractionMode.NoSelection;
+        _gameManager.Input.SetInGameLayout();
+    }
+
+    void OnConstructionCancelation(){
+        ReturnConstructionToPool(_currentStructureBehaviour.gameObject);
+        
+        _currentStructureBehaviour = null;
+        _gameManager.Interaction = GameManager.InteractionMode.NoSelection;
+        _gameManager.Input.SetInGameLayout();
+    }
+
+    void OnDestroyConfirmation(){
+        Debug.Log("OnDestroyConfirmation"); // TODO - implement
+    }
+
+    void OnDestroyCancelation(){
+        Debug.Log("OnDestroyCancelation"); // TODO - implement
     }
 }
