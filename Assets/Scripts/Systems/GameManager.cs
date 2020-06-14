@@ -67,12 +67,6 @@ public class GameManager : MonoBehaviour
         get { return _inputControllerReference; }
     }
 
-    [SerializeField]
-    UIController _uiControllerReference = null;
-    public UIController UI{
-        get { return _uiControllerReference; }
-    }
-
     // Construction
     ConstructionSystem _constructionSystem;
     [SerializeField]
@@ -90,7 +84,6 @@ public class GameManager : MonoBehaviour
         }
 
         if(_inputControllerReference == null) SetupErrorMessage("InputController game object not linked");
-        if(_uiControllerReference == null) SetupErrorMessage("UIController game object not linked");
         
         // Construction System
         if(_towerPrefab == null) SetupErrorMessage("Tower game object prefab not linked");
@@ -126,7 +119,7 @@ public class GameManager : MonoBehaviour
     public void EndGameProcedure(){
         // Debug.Log("YOU LOST!"); // TODO - insert debug flag?
         this.StopAllCoroutines();
-        UI.ChangeLayout(UIController.Layout.gameOver);
+        Input.ChangeLayout(InputController.Layout.gameOver);
     }
 
     //// Public click callbacks

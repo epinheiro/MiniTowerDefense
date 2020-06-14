@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class InputController : MonoBehaviour
 {
+    public enum Layout {inGame, gameOver} // TODO - new layouts - , constructionConfirmation, constructionDestruction}
+
     // Delegation
     public delegate void PassVector3(Vector3 vector);
 
@@ -16,6 +18,9 @@ public class InputController : MonoBehaviour
     bool _raycastIsPossible = true;
     
     // Game objects references
+    GameObject _overlayUI;
+    GameObject _endGamePopup;
+    GameObject _constructionPopup;
     Button _wallButtonReference;
     Button _towerButtonReference;
     GameManager _gameManager;
@@ -35,9 +40,17 @@ public class InputController : MonoBehaviour
     void Awake(){
         _mouseArrow = this.transform.Find("MouseArrow").gameObject;
 
-        Transform buttonGroup = this.transform.Find("OverlayUI").Find("Buttons");
+        _overlayUI = this.transform.Find("OverlayUI").gameObject;
+
+        Transform buttonGroup = _overlayUI.transform.Find("Buttons");
         _wallButtonReference = buttonGroup.Find("UIButton_Wall").GetComponent<Button>();
         _towerButtonReference = buttonGroup.Find("UIButton_Tower").GetComponent<Button>();
+
+        GameObject _popups = this.transform.Find("Popups").gameObject;
+        _endGamePopup = _popups.transform.Find("EndGame").gameObject;
+        _constructionPopup = _popups.transform.Find("Construction").gameObject; // TODO - proper control
+
+        ChangeLayout(Layout.inGame);
     }
 
     void Start(){
@@ -116,6 +129,25 @@ public class InputController : MonoBehaviour
         _mouseClickListeners += listenerCallback;
     }
 
+    public void ChangeLayout(Layout layout){
+        switch(layout){
+            case Layout.inGame:
+                SetUIElementActive(_overlayUI, true);
+                SetUIElementActive(_endGamePopup, false);
+                SetUIElementActive(_constructionPopup, false);
+                break;
+
+            case Layout.gameOver:
+                SetUIElementActive(_overlayUI, false);
+                SetUIElementActive(_endGamePopup, true);
+                SetUIElementActive(_constructionPopup, false);
+                break;
+
+            default:
+                throw new System.Exception(string.Format("Not expected layout {0}", layout));
+        }
+    }
+
     //// Event callbacks
     // Buttons pressed
     public void OnClickTowerButton(){
@@ -149,6 +181,13 @@ public class InputController : MonoBehaviour
                 SetToggleButton(true, _wallButtonReference);
                 SetToggleButton(false, _towerButtonReference);
                 break;
+        }
+    }
+
+    //// Private methods
+    void SetUIElementActive(GameObject gameObject, bool activate){
+        if(gameObject.activeSelf != activate){
+            gameObject.SetActive(activate);
         }
     }
 }
