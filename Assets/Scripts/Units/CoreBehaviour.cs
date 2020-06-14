@@ -8,7 +8,16 @@ public class CoreBehaviour : MonoBehaviour
     float _secondsToCheckMenace = 2;
 
     // Core gameplay attributes
-    float _coreTotalLife = 1;
+    int _coreTotalLife = 30; // CHECK - hardcoded life
+    int _currentLife;
+    int CurrentLife{
+        get { return _currentLife; }
+        set {
+            _currentLife = value;
+            _lifeBar.HardSetValue(_currentLife);
+        }
+    }
+    UILifeBar _lifeBar;
 
     
     // Enemy related attributes
@@ -17,6 +26,10 @@ public class CoreBehaviour : MonoBehaviour
     //// MonoBehaviour methods
     void Awake(){
         _menaces = new List<EnemyBehaviour>();
+        _lifeBar = this.transform.Find("LifeBar").GetComponent<UILifeBar>();
+        _lifeBar.SetUp(_coreTotalLife);
+
+        _currentLife = _coreTotalLife;
     }
 
     void Start()
@@ -26,8 +39,8 @@ public class CoreBehaviour : MonoBehaviour
 
     void Update()
     {
-        if(_coreTotalLife == 0){
-            Debug.Log("YOU LOST!");
+        if(CurrentLife <= 0){
+            Debug.Log("YOU LOST!"); // TODO - insert end game screen
         }
     }
 
@@ -51,19 +64,18 @@ public class CoreBehaviour : MonoBehaviour
 
     //// Private methods
     void TakeDamageFromManaces(){
-        _coreTotalLife -= _menaces.Count; // CHECK - Hardcoded damage
-        ClearMenaceObjectList();
+        CurrentLife -= ClearMenaceList(); // CHECK - Hardcoded damage (1 to each enemy life left)
     }
 
-    void ClearMenaceObjectList(){
-        int cumulativeEnemyLife = 0;
+    int ClearMenaceList(){
+        int purgedEnemyLifeLeft = 0;
 
         foreach(EnemyBehaviour eb in _menaces){
-            cumulativeEnemyLife += eb.EraseEnemy();
+            purgedEnemyLifeLeft += eb.EraseEnemy();
         }
 
-        // TODO - process cumulativeEnemyLife
-
         _menaces.Clear();
+
+        return purgedEnemyLifeLeft;
     }
 }
