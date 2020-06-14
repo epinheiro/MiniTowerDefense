@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -66,6 +67,12 @@ public class GameManager : MonoBehaviour
         get { return _inputControllerReference; }
     }
 
+    [SerializeField]
+    UIController _uiControllerReference = null;
+    public UIController UI{
+        get { return _uiControllerReference; }
+    }
+
     // Construction
     ConstructionSystem _constructionSystem;
     [SerializeField]
@@ -82,7 +89,8 @@ public class GameManager : MonoBehaviour
             _spawnPoints = _mapObject.transform.Find("SpawnPoints").gameObject;
         }
 
-        if(_inputControllerReference == null) SetupErrorMessage("UIController game object not linked");
+        if(_inputControllerReference == null) SetupErrorMessage("InputController game object not linked");
+        if(_uiControllerReference == null) SetupErrorMessage("UIController game object not linked");
         
         // Construction System
         if(_towerPrefab == null) SetupErrorMessage("Tower game object prefab not linked");
@@ -114,6 +122,13 @@ public class GameManager : MonoBehaviour
 
     }
 
+    //// Public API
+    public void EndGameProcedure(){
+        // Debug.Log("YOU LOST!"); // TODO - insert debug flag?
+        this.StopAllCoroutines();
+        UI.ChangeLayout(UIController.Layout.gameOver);
+    }
+
     //// Public click callbacks
     public void PlayerInteractionClicked(InteractionMode newInteraction){
         if(newInteraction == Interaction){
@@ -123,6 +138,10 @@ public class GameManager : MonoBehaviour
             _lastPlayerInteraction = Interaction;
             Interaction = newInteraction;
         }
+    }
+
+    public void RestartScene(){
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
     }
 
     //// Private methods

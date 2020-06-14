@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CoreBehaviour : MonoBehaviour
 {
+    // Game Manager
+    GameManager _gameManager;
+
     // Balance variables
     float _secondsToCheckMenace = 2; // CHECK - hardcoded check period
 
@@ -25,22 +28,24 @@ public class CoreBehaviour : MonoBehaviour
 
     //// MonoBehaviour methods
     void Awake(){
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>(); // TODO - is it better another access method?
+
         _menaces = new List<EnemyBehaviour>();
         _lifeBar = this.transform.Find("LifeBar").GetComponent<UILifeBar>();
-        _lifeBar.SetUp(_coreTotalLife);
 
         _currentLife = _coreTotalLife;
     }
 
     void Start()
     {
+        _lifeBar.SetUp(_coreTotalLife);
         this.StartCoroutine(CheckMenacesCoroutine(_secondsToCheckMenace));
     }
 
     void Update()
     {
         if(CurrentLife <= 0){
-            Debug.Log("YOU LOST!"); // TODO - insert end game screen
+            _gameManager.EndGameProcedure();
         }
     }
 
