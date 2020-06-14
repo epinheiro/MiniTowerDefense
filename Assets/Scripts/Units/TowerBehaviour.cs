@@ -8,8 +8,8 @@ public class TowerBehaviour : ConstructionBehaviour
     GameManager _gameManager;
     
     // Balance variables
-    readonly float _secondsToCheckMenace = 0.5f;
-    readonly int _lockdownEnemiesLimit = 2;
+    readonly float _secondsToCheckMenace = 0.5f; // CHECK - hardcoded check period
+    readonly int _lockdownEnemiesLimit = 2; // CHECK - hardcoded enemy perception limit
 
     // Enemy related attributes
     List<GameObject> _menaces;

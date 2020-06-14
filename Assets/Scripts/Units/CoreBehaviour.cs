@@ -5,7 +5,7 @@ using UnityEngine;
 public class CoreBehaviour : MonoBehaviour
 {
     // Balance variables
-    float _secondsToCheckMenace = 2;
+    float _secondsToCheckMenace = 2; // CHECK - hardcoded check period
 
     // Core gameplay attributes
     int _coreTotalLife = 30; // CHECK - hardcoded life
