@@ -83,7 +83,7 @@ public class SpawnSystem
         float timeBetweenWaves = 10;
 
         while(_currentWave < _waves.Length){
-            Debug.Log(string.Format("Beggining wave {0}", _currentWave));
+            Debug.Log(string.Format("INFO - Beggining wave {0}", _currentWave));
             WaveData wave = _waves[_currentWave];
 
             float totalTime = wave.totalTime;

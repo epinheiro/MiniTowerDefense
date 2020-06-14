@@ -62,7 +62,7 @@ public class TowerBehaviour : ConstructionBehaviour
                 for(int i=0; i<_menaces.Count; i++){
                     if(_menaces[i].GetComponent<EnemyBehaviour>().Active){
                         if(count < _lockdownEnemiesLimit){
-                        Debug.Log(string.Format("SHOOT {0}", _menaces[i])); // TODO - debug print
+                        //Debug.Log(string.Format("SHOOT {0}", _menaces[i])); // TODO - debug print
                         _gameManager.Projectiles.SpawnProjectile(this.transform, _menaces[i].transform);
                         count++;
                         }else{

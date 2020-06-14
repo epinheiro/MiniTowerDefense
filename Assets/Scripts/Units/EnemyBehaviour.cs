@@ -58,7 +58,7 @@ public class EnemyBehaviour : MonoBehaviour
     }
 
     public void EnemyHit(){
-        Debug.Log("DAMAGE! in " + this.name);
+        // Debug.Log("DAMAGE! in " + this.name); // TODO - delete debug print
         _currentLife--;
         if(_currentLife <= 0 ){
             _gameManager.Enemies.ReturnEnemyElement(this.gameObject);
