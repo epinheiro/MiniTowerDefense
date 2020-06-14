@@ -68,6 +68,14 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
+    public int EraseEnemy(){
+        int remainingLife = this._currentLife;
+
+        _gameManager.Enemies.ReturnEnemyElement(this.gameObject);
+        ResetEnemy();
+
+        return remainingLife;
+    }
 
     //// Private methods
     void UnpackEnemyAttributes(EnemyAttributes attributes){

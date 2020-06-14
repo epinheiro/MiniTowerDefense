@@ -56,9 +56,14 @@ public class CoreBehaviour : MonoBehaviour
     }
 
     void ClearMenaceObjectList(){
+        int cumulativeEnemyLife = 0;
+
         foreach(EnemyBehaviour eb in _menaces){
-            eb.EnemyHit();
+            cumulativeEnemyLife += eb.EraseEnemy();
         }
+
+        // TODO - process cumulativeEnemyLife
+
         _menaces.Clear();
     }
 }
