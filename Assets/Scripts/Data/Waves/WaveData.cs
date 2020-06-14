@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Data", menuName = "Data/Wave", order = 2)]
+[CreateAssetMenu(fileName = "Data", menuName = "Data/Wave/WaveData", order = 2)]
 public class WaveData : ScriptableObject
 {
     public float totalTime;
