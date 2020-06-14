@@ -59,9 +59,13 @@ public class EnemyBehaviour : MonoBehaviour
 
     public void EnemyHit(){
         Debug.Log("DAMAGE! in " + this.name);
-        // TODO - proper DAMAGE calculation
-        _gameManager.Enemies.ReturnEnemyElement(this.gameObject);
-        ResetEnemy();
+        _currentLife--;
+        if(_currentLife <= 0 ){
+            _gameManager.Enemies.ReturnEnemyElement(this.gameObject);
+            ResetEnemy();
+        }else{
+            _lifeBar.ChangeValueIn(-1); // CHECK - Hardcoded damage value
+        }
     }
 
 
@@ -69,6 +73,8 @@ public class EnemyBehaviour : MonoBehaviour
     void UnpackEnemyAttributes(EnemyAttributes attributes){
         _totalLife = _currentLife = attributes.life;
         _lifeBar.SetUp(_totalLife);
+
+        _aiAgent.speed = attributes.speed;
     }
 
     void ResetEnemy(){
