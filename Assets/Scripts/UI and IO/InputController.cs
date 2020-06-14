@@ -157,6 +157,15 @@ public class InputController : MonoBehaviour
     public void OnClickWallButton(){
         _gameManager.PlayerInteractionClicked(GameManager.InteractionMode.WallSelection);
     }
+
+    public void OnClickBottomButton1(){
+        Debug.Log("Button 1 clicked"); // TODO - proper logic
+    }
+
+    public void OnClickBottomButton2(){
+        Debug.Log("Button 2 clicked"); // TODO - proper logic
+    }
+
     // Buttons hovered
     public void OnEnterHover(){
         _raycastIsPossible = false;

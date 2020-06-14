@@ -186,18 +186,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &156596225 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2034924293474968219, guid: 2f72aa841aa4ffb4ca2696e7d3038721,
-    type: 3}
-  m_PrefabInstance: {fileID: 7579167187021476733}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a7e22276da928644bcaa800a15c73ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &915022469 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7579167187852333560, guid: 2f72aa841aa4ffb4ca2696e7d3038721,
@@ -506,7 +494,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _uiControllerReference
       value: 
-      objectReference: {fileID: 156596225}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f541310b9a8be7428cdebbeffc9970a, type: 3}
 --- !u!1001 &7579167187021476733
@@ -779,5 +767,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2034924293474968219, guid: 2f72aa841aa4ffb4ca2696e7d3038721, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2f72aa841aa4ffb4ca2696e7d3038721, type: 3}
