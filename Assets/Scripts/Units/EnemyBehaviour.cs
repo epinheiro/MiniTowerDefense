@@ -13,14 +13,25 @@ public class EnemyBehaviour : MonoBehaviour
     public bool Active{
         get { return _isActive; }
     }
+    UILifeBar _lifeBar;
 
     // Attributes
     GameObject _coreReference;
     NavMeshAgent _aiAgent;
+    int _totalLife;
+    int _currentLife;
+    int CurrentLife{
+        get { return _currentLife; }
+        set {
+            _currentLife = value;
+            _lifeBar.HardSetValue(_currentLife);
+        }
+    }
 
 
     void Awake(){
         _aiAgent = this.GetComponent<NavMeshAgent>();
+        _lifeBar = this.transform.Find("LifeBar").GetComponent<UILifeBar>();
     }
 
     //// MonoBehaviour methods
@@ -40,9 +51,10 @@ public class EnemyBehaviour : MonoBehaviour
     }
 
     //// Public API
-    public void SetEnemyAttributes(Vector3 spawnPoint){
+    public void SetEnemyAttributes(Vector3 spawnPoint, EnemyAttributes attributes){
         _isActive = true;
         this.transform.position = spawnPoint;
+        UnpackEnemyAttributes(attributes);
     }
 
     public void EnemyHit(){
@@ -54,6 +66,11 @@ public class EnemyBehaviour : MonoBehaviour
 
 
     //// Private methods
+    void UnpackEnemyAttributes(EnemyAttributes attributes){
+        _totalLife = _currentLife = attributes.life;
+        _lifeBar.SetUp(_totalLife);
+    }
+
     void ResetEnemy(){
         _isActive = false;
     }

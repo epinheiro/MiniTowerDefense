@@ -16,9 +16,9 @@ public class EnemySystem
         this._pool = new PrefabPoolingSystem(prefab, poolSize, enemyParent);
     }
 
-    public GameObject SpawnEnemyAt(Vector3 position){
+    public GameObject SpawnEnemyAt(Vector3 position, EnemyAttributes attributes){
         GameObject enemy = _pool.GetInstance();
-        enemy.GetComponent<EnemyBehaviour>().SetEnemyAttributes(position);
+        enemy.GetComponent<EnemyBehaviour>().SetEnemyAttributes(position, attributes);
         return enemy;
     }
 
