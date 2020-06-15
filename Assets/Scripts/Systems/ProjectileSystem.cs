@@ -17,7 +17,14 @@ public class ProjectileSystem
     }
 
     public GameObject SpawnProjectile(Transform origin, Transform target){
-        GameObject go = _pool.GetInstance();
+        GameObject go;
+        try{
+            go = _pool.GetInstance();
+        }catch(System.Exception){
+            _pool.EnlargePoolSize((_gameManager.ProjectilePoolSize/2)+1);
+            go = _pool.GetInstance();
+        }
+        
         go.transform.position = origin.position;
         go.GetComponent<ProjectileBehaviour>().SetProjectionAttributes(target, OnProjectileCallback);
         return go;
