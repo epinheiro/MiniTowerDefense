@@ -6,9 +6,16 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     // Meta setup
-    readonly int _constructionPoolSize = 5;
-    readonly int _enemyPoolSize = 20;
-    readonly int _projectilePoolSize = 60;
+    PoolingSetup _poolingSetup;
+    public int ConstructionPoolSize{
+        get { return _poolingSetup.eachConstructionPoolSize; }
+    }
+    public int EnemyPoolSize{
+        get { return _poolingSetup.enemyPoolSize; }
+    }
+    public int ProjectilePoolSize{
+        get { return _poolingSetup.projectilePoolSize; }
+    }
 
     // Enumerators
     public enum InteractionMode {NoSelection, WallSelection, TowerSelection, ConstructionConfirmation, DestructionConfirmation}
@@ -77,6 +84,10 @@ public class GameManager : MonoBehaviour
 
     //// MonoBehaviour methods
     void Awake(){
+        // Meta
+        _poolingSetup = Resources.Load("Data/PoolSetup") as PoolingSetup;
+
+        // Map
         if(_mapObject == null) SetupErrorMessage("Map game object not linked");
         else{
             _core = _mapObject.transform.Find("Core").gameObject;
@@ -89,7 +100,7 @@ public class GameManager : MonoBehaviour
         if(_towerPrefab == null) SetupErrorMessage("Tower game object prefab not linked");
         if(_wallPrefab == null) SetupErrorMessage("Wall game object prefab not linked");
         Transform constructionsParent = transform.Find("Constructions");
-        _constructionSystem = new ConstructionSystem(this, _towerPrefab, _wallPrefab, _constructionPoolSize, constructionsParent);
+        _constructionSystem = new ConstructionSystem(this, _towerPrefab, _wallPrefab, ConstructionPoolSize, constructionsParent);
         Input.RegisterMouseMovementListener(_constructionSystem.OnMouseChange);
         Input.RegisterMouseClickListener(_constructionSystem.OnMouseClick);
 
@@ -99,12 +110,12 @@ public class GameManager : MonoBehaviour
         // Projectile system
         if(_projectilePrefab == null) SetupErrorMessage("Projectile game object prefab not linked");
         Transform projectilesParent = transform.Find("Projectiles");
-        _projectileSystem = new ProjectileSystem(this, _projectilePrefab, _projectilePoolSize, projectilesParent);
+        _projectileSystem = new ProjectileSystem(this, _projectilePrefab, ProjectilePoolSize, projectilesParent);
 
         // Enemy System
         if(_enemyPrefab == null) SetupErrorMessage("Enemy game object prefab not linked");
         Transform enemiesParent = transform.Find("Enemies");
-        _spawn = new SpawnSystem(this, _enemyPrefab, _enemyPoolSize, enemiesParent);
+        _spawn = new SpawnSystem(this, _enemyPrefab, EnemyPoolSize, enemiesParent);
     }
 
     void Start(){
