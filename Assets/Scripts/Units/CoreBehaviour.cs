@@ -8,6 +8,7 @@ public class CoreBehaviour : MonoBehaviour
     GameManager _gameManager;
 
     // Balance variables
+    float _currentTimeCount = 0;
     float _secondsToCheckMenace = 2; // CHECK - hardcoded check period
 
     // Core gameplay attributes
@@ -39,7 +40,6 @@ public class CoreBehaviour : MonoBehaviour
     void Start()
     {
         _lifeBar.SetUp(_coreTotalLife);
-        this.StartCoroutine(CheckMenacesCoroutine(_secondsToCheckMenace));
     }
 
     void Update()
@@ -47,7 +47,13 @@ public class CoreBehaviour : MonoBehaviour
         if(CurrentLife <= 0){
             Debug.Log("INFO - Defeat");
             _gameManager.EndGameProcedure("Game Over", "Try again");
+        }else{
+            if(_menaces.Count > 0 && _currentTimeCount >= _secondsToCheckMenace){
+                _currentTimeCount = 0;
+                TakeDamageFromManaces();
+            }
         }
+        _currentTimeCount += Time.deltaTime;
     }
 
     void OnTriggerEnter(Collider other){
@@ -55,16 +61,6 @@ public class CoreBehaviour : MonoBehaviour
             case GameManager.Tags.Enemy:
                 _menaces.Add(other.GetComponent<EnemyBehaviour>());
                 break;
-        }
-    }
-
-    //// Coroutines
-    IEnumerator CheckMenacesCoroutine(float secondsToCheckMenace){
-        while(true){
-            yield return new WaitForSeconds(secondsToCheckMenace);
-            if(_menaces.Count > 0){
-                TakeDamageFromManaces();
-            }
         }
     }
 
