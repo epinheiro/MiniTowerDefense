@@ -74,12 +74,12 @@ public class SpawnSystem
                 break;
 
             case SpawnTypes.LineGroup:
-                _gameManager.StartCoroutine(SpawnEnemyLineGroup(spawn, enemyNumber, attributes));
+                SpawnEnemyLineGroup(spawn, enemyNumber, attributes);
                 break;
         }
     }
 
-    //// Coroutines
+    //// Spawn coroutines and methods
     IEnumerator BeginSpawns(){
         while(_currentWave < _waves.Length){
             WaveData wave = _waves[_currentWave];
@@ -120,42 +120,35 @@ public class SpawnSystem
         _gameManager.EndGameProcedure("Victory!", "Play again?");
     }
 
-    IEnumerator SpawnDelayedSingleEnemy(Vector3 position, float delaySeconds, int remainingEnemies, EnemyAttributes attributes){
-        if(remainingEnemies > 0){
-            bool worked = false;
-            try{
-                _enemySystem.SpawnEnemyAt(position, attributes);
-                worked = true;
-            }catch(System.Exception){}
+    IEnumerator SpawnDelayedSingleEnemy(Vector3 position, float delaySeconds, int newEnemies, EnemyAttributes attributes){
+        if(newEnemies > 0){
+            int poolAvailableElements = _enemySystem.GetAvailableElements();
 
+            if(newEnemies > poolAvailableElements){
+                _enemySystem.EnlargePoolSize(newEnemies-poolAvailableElements);
+            }
+
+            _enemySystem.SpawnEnemyAt(position, attributes);
             yield return new WaitForSecondsRealtime(delaySeconds);
-
-            if(worked){ 
-                yield return SpawnDelayedSingleEnemy(position, delaySeconds, --remainingEnemies, attributes);
-            }else{ // Wait to be possible to instantiate more enemies
-                yield return SpawnDelayedSingleEnemy(position, delaySeconds, remainingEnemies, attributes);
-            }
+            yield return SpawnDelayedSingleEnemy(position, delaySeconds, --newEnemies, attributes);
         }
     }
 
-    IEnumerator SpawnEnemyLineGroup(Vector3 position, int enemyNumber, EnemyAttributes attributes){
-        if(enemyNumber > 0){
-            int enemiesSpawned = 0;
-            
-            try{
-                PositionEnemyLine(position, enemyNumber, ref enemiesSpawned, attributes);
+    void SpawnEnemyLineGroup(Vector3 initialPosition, int newEnemies, EnemyAttributes attributes){
+        if(newEnemies > 0){
+            int poolAvailableElements = _enemySystem.GetAvailableElements();
 
-            }catch(System.Exception){}
-
-            yield return new WaitForSecondsRealtime(.1f);
-
-            if(enemiesSpawned < enemyNumber){ // If pool was insuficient to group spawn, try to delayed single
-                yield return SpawnDelayedSingleEnemy(position, 1, enemyNumber - enemiesSpawned, attributes);
+            if(newEnemies > poolAvailableElements){
+                _enemySystem.EnlargePoolSize(newEnemies-poolAvailableElements);
             }
+
+            PositionEnemyLine(initialPosition, newEnemies, attributes);
         }
     }
 
-    void PositionEnemyLine(Vector3 initialPosition, int enemyNumber, ref int enemiesSpawned, EnemyAttributes attributes){
+    void PositionEnemyLine(Vector3 initialPosition, int enemyNumber, EnemyAttributes attributes){
+        int enemiesSpawned = 0;
+        
         Vector3 spawnPoint;
 
         Vector3 destiny = _gameManager.Core.transform.position;
