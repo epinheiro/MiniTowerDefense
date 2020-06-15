@@ -118,7 +118,7 @@ public class GameManager : MonoBehaviour
         // Enemy System
         if(_enemyPrefab == null) SetupErrorMessage("Enemy game object prefab not linked");
         Transform enemiesParent = transform.Find("Enemies");
-        _spawn = new SpawnSystem(this, _enemyPrefab, EnemyPoolSize, enemiesParent);
+        _spawn = new SpawnSystem(this, _enemyPrefab, enemiesParent);
     }
 
     void Start(){

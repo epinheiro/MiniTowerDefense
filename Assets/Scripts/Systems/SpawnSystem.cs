@@ -31,9 +31,9 @@ public class SpawnSystem
     }
     
     //// Public API
-    public SpawnSystem(GameManager gameManager, GameObject enemyPrefab, int poolSize, Transform enemyParent){
+    public SpawnSystem(GameManager gameManager, GameObject enemyPrefab, Transform enemyParent){
         this._gameManager = gameManager;
-        _enemySystem = new EnemySystem(gameManager, enemyPrefab, poolSize, enemyParent);
+        _enemySystem = new EnemySystem(gameManager, enemyPrefab, gameManager.EnemyPoolSize, enemyParent);
 
         PrepareSpawnPointList();
 
