@@ -11,8 +11,8 @@ public class EnemySystem
     PrefabPoolingSystem _pool;
     
     //// Public API
-    public EnemySystem(GameManager gameManager, GameObject prefab, int poolSize, Transform enemyParent){
-        this._gameManager = gameManager;
+    public EnemySystem(GameObject prefab, int poolSize, Transform enemyParent){
+        this._gameManager = GameManager.Instance;
         this._pool = new PrefabPoolingSystem(prefab, poolSize, enemyParent);
     }
 

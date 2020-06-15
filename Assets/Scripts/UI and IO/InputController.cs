@@ -75,7 +75,7 @@ public class InputController : MonoBehaviour
     }
 
     void Start(){
-        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>(); // TODO futurely will be changed to a Init method
+        _gameManager = GameManager.Instance;
     }
 
     void FixedUpdate(){

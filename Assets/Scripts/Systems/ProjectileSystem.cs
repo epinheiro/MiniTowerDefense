@@ -11,9 +11,9 @@ public class ProjectileSystem
     PrefabPoolingSystem _pool;
     
     //// Public API
-    public ProjectileSystem(GameManager gameManager, GameObject prefab, Transform parent){
-        this._gameManager = gameManager;
-        this._pool = new PrefabPoolingSystem(prefab, gameManager.ProjectilePoolSize, parent);
+    public ProjectileSystem(GameObject prefab, Transform parent){
+        this._gameManager = GameManager.Instance;
+        this._pool = new PrefabPoolingSystem(prefab, _gameManager.ProjectilePoolSize, parent);
     }
 
     public GameObject SpawnProjectile(Transform origin, Transform target){

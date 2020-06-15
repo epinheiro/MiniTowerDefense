@@ -36,7 +36,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     //// MonoBehaviour methods
     void Start(){
-        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();  // TODO - is it better another access method?
+        _gameManager = GameManager.Instance;
         _coreReference = _gameManager.Core; 
         ChangeAgentDestination(_coreReference.transform.position);
     }

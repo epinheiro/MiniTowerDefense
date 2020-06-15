@@ -21,7 +21,7 @@ public class TowerBehaviour : ConstructionBehaviour
     //// MonoBehaviour methods
     protected override void Awake(){
         base.Awake();
-        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>(); // TODO - is it better another access method?
+        _gameManager = GameManager.Instance;
 
         _menaces = new List<GameObject>();
         _perceptionTrigger = this.GetComponent<SphereCollider>();

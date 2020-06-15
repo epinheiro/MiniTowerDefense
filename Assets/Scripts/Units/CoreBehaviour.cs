@@ -29,7 +29,7 @@ public class CoreBehaviour : MonoBehaviour
 
     //// MonoBehaviour methods
     void Awake(){
-        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>(); // TODO - is it better another access method?
+        _gameManager = GameManager.Instance;
 
         _menaces = new List<EnemyBehaviour>();
         _lifeBar = this.transform.Find("LifeBar").GetComponent<UILifeBar>();

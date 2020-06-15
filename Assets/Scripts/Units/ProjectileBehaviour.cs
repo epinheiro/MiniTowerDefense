@@ -19,7 +19,7 @@ public class ProjectileBehaviour : MonoBehaviour
 
     //// MonoBehaviour methods
     void Start(){
-        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();  // TODO - is it better another access method?
+        _gameManager = GameManager.Instance;
     }
 
     void Update(){

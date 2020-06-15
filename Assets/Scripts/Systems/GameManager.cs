@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     // Meta setup
+    public static GameManager Instance;
     PoolingSetup _poolingSetup;
     public int TowerPoolSize{
         get { return _poolingSetup.towerPoolSize; }
@@ -92,6 +93,8 @@ public class GameManager : MonoBehaviour
 
     //// MonoBehaviour methods
     void Awake(){
+        Instance = this;
+
         // Meta
         _poolingSetup = Resources.Load("Data/PoolingSetup") as PoolingSetup;
 
@@ -108,7 +111,7 @@ public class GameManager : MonoBehaviour
         if(_towerPrefab == null) SetupErrorMessage("Tower game object prefab not linked");
         if(_wallPrefab == null) SetupErrorMessage("Wall game object prefab not linked");
         Transform constructionsParent = transform.Find("Constructions");
-        _constructionSystem = new ConstructionSystem(this, _towerPrefab, _wallPrefab, constructionsParent);
+        _constructionSystem = new ConstructionSystem(_towerPrefab, _wallPrefab, constructionsParent);
         Input.RegisterMouseMovementListener(_constructionSystem.OnMouseChange);
         Input.RegisterMouseClickListener(_constructionSystem.OnMouseClick);
 
@@ -118,12 +121,12 @@ public class GameManager : MonoBehaviour
         // Projectile system
         if(_projectilePrefab == null) SetupErrorMessage("Projectile game object prefab not linked");
         Transform projectilesParent = transform.Find("Projectiles");
-        _projectileSystem = new ProjectileSystem(this, _projectilePrefab, projectilesParent);
+        _projectileSystem = new ProjectileSystem(_projectilePrefab, projectilesParent);
 
         // Enemy System
         if(_enemyPrefab == null) SetupErrorMessage("Enemy game object prefab not linked");
         Transform enemiesParent = transform.Find("Enemies");
-        _spawn = new SpawnSystem(this, _enemyPrefab, enemiesParent);
+        _spawn = new SpawnSystem(_enemyPrefab, enemiesParent);
     }
 
     void Start(){
