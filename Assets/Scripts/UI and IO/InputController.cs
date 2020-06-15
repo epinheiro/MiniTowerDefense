@@ -175,6 +175,14 @@ public class InputController : MonoBehaviour
         _constructionButton2Text.text = button2Text;
     }
 
+    public void SetVisibilityWallButton(bool isVisible){
+        _wallButtonReference.gameObject.SetActive(isVisible);
+    }
+
+    public void SetVisibilityTowerButton(bool isVisible){
+        _towerButtonReference.gameObject.SetActive(isVisible);
+    }
+
     //// Event callbacks
     // Buttons pressed
     public void OnClickTowerButton(){
