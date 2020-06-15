@@ -420,6 +420,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 287099803873353435, guid: 7f541310b9a8be7428cdebbeffc9970a,
+        type: 3}
+      propertyPath: _coreGameObject
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 287099803873353435, guid: 7f541310b9a8be7428cdebbeffc9970a,
+        type: 3}
+      propertyPath: _inputControllerReference
+      value: 
+      objectReference: {fileID: 915022469}
+    - target: {fileID: 287099803873353435, guid: 7f541310b9a8be7428cdebbeffc9970a,
+        type: 3}
+      propertyPath: _mapObject
+      value: 
+      objectReference: {fileID: 1310379105}
+    - target: {fileID: 287099803873353435, guid: 7f541310b9a8be7428cdebbeffc9970a,
+        type: 3}
+      propertyPath: _uiControllerReference
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 287099803873353436, guid: 7f541310b9a8be7428cdebbeffc9970a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -474,26 +494,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 287099803873353435, guid: 7f541310b9a8be7428cdebbeffc9970a,
-        type: 3}
-      propertyPath: _coreGameObject
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 287099803873353435, guid: 7f541310b9a8be7428cdebbeffc9970a,
-        type: 3}
-      propertyPath: _inputControllerReference
-      value: 
-      objectReference: {fileID: 915022469}
-    - target: {fileID: 287099803873353435, guid: 7f541310b9a8be7428cdebbeffc9970a,
-        type: 3}
-      propertyPath: _mapObject
-      value: 
-      objectReference: {fileID: 1310379105}
-    - target: {fileID: 287099803873353435, guid: 7f541310b9a8be7428cdebbeffc9970a,
-        type: 3}
-      propertyPath: _uiControllerReference
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f541310b9a8be7428cdebbeffc9970a, type: 3}
@@ -661,7 +661,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1122490834, guid: 2f72aa841aa4ffb4ca2696e7d3038721, type: 3}
       propertyPath: m_Name
-      value: TryAgainButton
+      value: Button
       objectReference: {fileID: 0}
     - target: {fileID: 1122490836, guid: 2f72aa841aa4ffb4ca2696e7d3038721, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size

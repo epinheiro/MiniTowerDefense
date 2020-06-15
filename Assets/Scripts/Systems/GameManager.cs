@@ -116,10 +116,10 @@ public class GameManager : MonoBehaviour
     }
 
     //// Public API
-    public void EndGameProcedure(){
+    public void EndGameProcedure(string text, string buttonText){
         // Debug.Log("YOU LOST!"); // TODO - insert debug flag?
         this.StopAllCoroutines();
-        Input.SetGameOverLayout();
+        Input.SetEndGameLayout(text, buttonText);
     }
 
     //// Public click callbacks

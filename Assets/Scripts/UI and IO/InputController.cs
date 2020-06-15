@@ -27,6 +27,8 @@ public class InputController : MonoBehaviour
     Text _constructionButton2Text;
     Button _wallButtonReference;
     Button _towerButtonReference;
+    Text _endGameText;
+    Text _endGameButtonText;
     GameManager _gameManager;
 
     // Mouse related attributes
@@ -62,6 +64,9 @@ public class InputController : MonoBehaviour
         Transform button2 = buttonsGroup.GetChild(1);
         _constructionButton2Reference = button2.GetComponent<Button>();
         _constructionButton2Text =  button2.Find("Text").GetComponent<Text>();
+
+        _endGameText = _endGamePopup.transform.Find("EndGameText").GetComponent<Text>();
+        _endGameButtonText = _endGamePopup.transform.Find("Button").Find("Text").GetComponent<Text>();
 
         SetInGameLayout();
     }
@@ -148,10 +153,13 @@ public class InputController : MonoBehaviour
         SetUIElementActive(_endGamePopup, false);
         SetUIElementActive(_constructionPopup, false);
     }
-    public void SetGameOverLayout(){
+    public void SetEndGameLayout(string text, string buttonText){
         SetUIElementActive(_overlayUI, false);
         SetUIElementActive(_endGamePopup, true);
         SetUIElementActive(_constructionPopup, false);
+
+        _endGameText.text = text;
+        _endGameButtonText.text = buttonText;
     }
     public void SetConstructionPopupLayout(string mainText, string button1Text, UnityAction button1Callback, string button2Text, UnityAction button2Callback){
         SetUIElementActive(_overlayUI, true);
