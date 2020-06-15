@@ -7,18 +7,18 @@ public class GameManager : MonoBehaviour
 {
     // Meta setup
     public static GameManager Instance;
-    PoolingSetup _poolingSetup;
+    GameSetup _gameSetup;
     public int TowerPoolSize{
-        get { return _poolingSetup.towerPoolSize; }
+        get { return _gameSetup.towerPoolSize; }
     }
     public int WallPoolSize{
-        get { return _poolingSetup.wallPoolSize; }
+        get { return _gameSetup.wallPoolSize; }
     }
     public int EnemyPoolSize{
-        get { return _poolingSetup.enemyPoolSize; }
+        get { return _gameSetup.enemyPoolSize; }
     }
     public int ProjectilePoolSize{
-        get { return _poolingSetup.projectilePoolSize; }
+        get { return _gameSetup.projectilePoolSize; }
     }
 
     // Enumerators
@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
         Instance = this;
 
         // Meta
-        _poolingSetup = Resources.Load("Data/PoolingSetup") as PoolingSetup;
+        _gameSetup = Resources.Load("Data/GameSetup") as GameSetup;
 
         // Map
         if(_mapObject == null) SetupErrorMessage("Map game object not linked");
