@@ -108,7 +108,7 @@ public class SpawnSystem
                 Debug.Log(string.Format("INFO - SubWave {0} type {1} in {2} formation for {3} seconds", quantity, expectedType, formation, timeLimit));
 
                 Spawn(quantity, _spawnPointList[Random.Range(0, _spawnPointList.Count)], formation, value);
-                yield return new WaitForSecondsRealtime(timeLimit);
+                yield return new WaitForSeconds(timeLimit);
             }
             Wave++;
         }
@@ -117,7 +117,7 @@ public class SpawnSystem
         
         while(_enemySystem.GetActiveNumber() > 0){
             Debug.Log(string.Format("INFO - {0} enemies alive", _enemySystem.GetActiveNumber()));
-            yield return new WaitForSecondsRealtime(2f);
+            yield return new WaitForSeconds(2f);
         }
 
         Debug.Log("INFO - Victory");

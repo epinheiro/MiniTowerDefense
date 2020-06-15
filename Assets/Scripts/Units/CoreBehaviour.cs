@@ -61,7 +61,7 @@ public class CoreBehaviour : MonoBehaviour
     //// Coroutines
     IEnumerator CheckMenacesCoroutine(float secondsToCheckMenace){
         while(true){
-            yield return new WaitForSecondsRealtime(secondsToCheckMenace);
+            yield return new WaitForSeconds(secondsToCheckMenace);
             if(_menaces.Count > 0){
                 TakeDamageFromManaces();
             }

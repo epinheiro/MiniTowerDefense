@@ -78,7 +78,7 @@ public class TowerBehaviour : ConstructionBehaviour
                 }
             }
 
-            yield return new WaitForSecondsRealtime(_secondsToCheckMenace);
+            yield return new WaitForSeconds(_secondsToCheckMenace);
         }
     }
 
