@@ -27,7 +27,16 @@ public class EnemySystem
         _pool.ReturnInstance(go);
     }
 
+    // Pooling methods
     public int GetActiveNumber(){
         return _pool.Used;
+    }
+
+    public int GetAvailableElements(){
+        return _pool.Available;
+    }
+
+    public void EnlargePoolSize(int newElements){
+        _pool.EnlargePoolSize(newElements);
     }
 }
