@@ -25,16 +25,19 @@ public class PrefabPoolingSystem
         get { return Size - Used; }
     }
     GameObject _poolPrefab;
+    Transform _parent;
 
 
     //// Public API
-    public PrefabPoolingSystem(GameObject prefab, int poolSize, Transform parent = null){
+    public PrefabPoolingSystem(GameObject prefab, int poolSize, Transform parent){
         this._poolPrefab = prefab;
         this._poolSize = poolSize;
         
-        _pool = new List<GameObject>();
+        this._pool = new List<GameObject>();
+
+        this._parent = parent;
         
-        InstantiateNewElements(prefab, Size, parent);
+        InstantiateNewElements(prefab, Size);
     }
 
     public GameObject GetInstance(){
@@ -97,16 +100,16 @@ public class PrefabPoolingSystem
     }
 
     //// Private methods
-    void InstantiateNewElements(GameObject prefab, int numberOfNewElements, Transform parent = null){
+    void InstantiateNewElements(GameObject prefab, int numberOfNewElements){
         for(int i=0; i<numberOfNewElements; i++){
             GameObject go = MonoBehaviour.Instantiate(prefab, _initialPosition, _rotationIdentity);
             go.SetActive(false);
 
             _pool.Add(go);
 
-            if(parent != null){
+            if(_parent != null){
                 Transform transform = go.transform;
-                transform.SetParent(parent);
+                transform.SetParent(_parent);
                 transform.localPosition = _initialPosition;
                 transform.localRotation = _rotationIdentity;
             }
