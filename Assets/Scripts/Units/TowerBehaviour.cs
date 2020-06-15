@@ -8,6 +8,7 @@ public class TowerBehaviour : ConstructionBehaviour
     GameManager _gameManager;
     
     // Balance variables
+    float _currentTimeCount = 0;
     readonly float _secondsToCheckMenace = 0.5f; // CHECK - hardcoded check period
     readonly int _lockdownEnemiesLimit = 2; // CHECK - hardcoded enemy perception limit
 
@@ -26,13 +27,32 @@ public class TowerBehaviour : ConstructionBehaviour
         _perceptionTrigger = this.GetComponent<SphereCollider>();
     }
 
-    protected override void Start(){
-        base.Start();
-        this.StartCoroutine(CheckMenacesCoroutine());
-    }
-
     void Update(){
+        if(_menaces.Count > 0 && _currentTimeCount >= _secondsToCheckMenace){
+            _currentTimeCount = 0;
+            List<GameObject> menacesLost = new List<GameObject>();
+            
+            int count = 0;
 
+            for(int i=0; i<_menaces.Count; i++){
+                if(_menaces[i].GetComponent<EnemyBehaviour>().Active){
+                    if(count < _lockdownEnemiesLimit){
+                    //Debug.Log(string.Format("SHOOT {0}", _menaces[i])); // TODO - debug print
+                    _gameManager.Projectiles.SpawnProjectile(this.transform, _menaces[i].transform);
+                    count++;
+                    }else{
+                        break;
+                    }
+                }else{
+                    menacesLost.Add(_menaces[i]);
+                }
+            }
+
+            foreach(GameObject menace in menacesLost){
+                _menaces.Remove(menace);
+            }
+        }
+        _currentTimeCount += Time.deltaTime;
     }
 
     void OnTriggerEnter(Collider other){
@@ -48,37 +68,6 @@ public class TowerBehaviour : ConstructionBehaviour
             case GameManager.Tags.Enemy:
                 _menaces.Remove(other.gameObject);
                 break;
-        }
-    }
-
-    //// Coroutines
-    IEnumerator CheckMenacesCoroutine(){
-        while(true){
-            if(_menaces.Count > 0){
-                List<GameObject> menacesLost = new List<GameObject>();
-                
-                int count = 0;
-
-                for(int i=0; i<_menaces.Count; i++){
-                    if(_menaces[i].GetComponent<EnemyBehaviour>().Active){
-                        if(count < _lockdownEnemiesLimit){
-                        //Debug.Log(string.Format("SHOOT {0}", _menaces[i])); // TODO - debug print
-                        _gameManager.Projectiles.SpawnProjectile(this.transform, _menaces[i].transform);
-                        count++;
-                        }else{
-                            break;
-                        }
-                    }else{
-                        menacesLost.Add(_menaces[i]);
-                    }
-                }
-
-                foreach(GameObject menace in menacesLost){
-                    _menaces.Remove(menace);
-                }
-            }
-
-            yield return new WaitForSeconds(_secondsToCheckMenace);
         }
     }
 
