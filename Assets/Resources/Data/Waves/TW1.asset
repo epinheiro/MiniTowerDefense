@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd98849a6715cef4d9ba25e3578f20f4, type: 3}
-  m_Name: T_W1
+  m_Name: TW1
   m_EditorClassIdentifier: 
   enemySubWaves:
   - {fileID: 11400000, guid: a600e2acc734b3347af4e0a55ae66c38, type: 2}

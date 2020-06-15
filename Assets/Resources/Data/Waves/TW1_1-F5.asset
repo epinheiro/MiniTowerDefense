@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e19276dd485b0024c9f7454f00a600b9, type: 3}
-  m_Name: T_W1_1_F5
+  m_Name: TW1_1-F5
   m_EditorClassIdentifier: 
   timeUntilNextSubWave: 5
   enemyType: 0
