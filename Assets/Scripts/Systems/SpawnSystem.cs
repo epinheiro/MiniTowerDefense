@@ -172,7 +172,7 @@ public class SpawnSystem
         Vector3 destiny = _gameManager.Core.transform.position;
         Vector3 diff = initialPosition - destiny;
 
-        for(int i=0; i<enemyNumber; i++){
+        while(enemiesSpawned < enemyNumber){
             float modifier = (enemiesSpawned%2==0 ? -1 : 1) * enemiesSpawned;
 
             if(diff.x == 0){
@@ -190,10 +190,12 @@ public class SpawnSystem
                     }
                 }
             }
-
-            _enemySystem.SpawnEnemyAt(spawnPoint, attributes);
-
-            enemiesSpawned++;
+            try{
+                _enemySystem.SpawnEnemyAt(spawnPoint, attributes);
+                enemiesSpawned++;
+            }catch(System.Exception){
+                CheckAvailablePoolSize(enemyNumber-enemiesSpawned);
+            }
         }
     }
 }
