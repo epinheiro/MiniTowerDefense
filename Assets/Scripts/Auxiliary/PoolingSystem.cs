@@ -99,6 +99,19 @@ public class PrefabPoolingSystem
         return message;
     }
 
+    public List<GameObject> GetAllElementsActive(){
+        List<GameObject> allActive = new List<GameObject>();
+        for(int i=0 ; i<Size; i++){
+            GameObject element = _pool[i];
+            if(element.activeSelf){
+                allActive.Add(element);
+            }else{
+                break;
+            }
+        }
+        return allActive;
+    }
+
     //// Private methods
     void InstantiateNewElements(GameObject prefab, int numberOfNewElements){
         for(int i=0; i<numberOfNewElements; i++){
