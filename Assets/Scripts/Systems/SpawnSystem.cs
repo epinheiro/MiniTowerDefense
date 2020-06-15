@@ -44,6 +44,10 @@ public class SpawnSystem
         _enemySystem.ReturnEnemyElement(go);
     }
 
+    public void MapChanged(){
+        _enemySystem.MapChanged();
+    }
+
     //// Private methods
     void PrepareSpawnPointList(){
         _spawnPointList = new List<Vector3>();

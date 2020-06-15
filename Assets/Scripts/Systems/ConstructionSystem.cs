@@ -185,6 +185,8 @@ public class ConstructionSystem
         _currentStructureBehaviour = null;
         _gameManager.Interaction = GameManager.InteractionMode.NoSelection;
         _gameManager.Input.SetInGameLayout();
+
+        _gameManager.Enemies.MapChanged();
     }
 
     void OnConstructionCancelation(){
@@ -204,6 +206,8 @@ public class ConstructionSystem
         _gameManager.Interaction = GameManager.InteractionMode.NoSelection;
 
         _gameManager.Input.SetInGameLayout();
+
+        _gameManager.Enemies.MapChanged();
     }
 
     void OnDestroyCancelation(){

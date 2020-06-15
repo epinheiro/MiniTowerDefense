@@ -77,6 +77,10 @@ public class EnemyBehaviour : MonoBehaviour
         return remainingLife;
     }
 
+    public void RecalculateRoute(){
+        ChangeAgentDestination(_coreReference.transform.position);
+    }
+
     //// Private methods
     void UnpackEnemyAttributes(EnemyAttributes attributes){
         _totalLife = _currentLife = attributes.life;
@@ -90,7 +94,7 @@ public class EnemyBehaviour : MonoBehaviour
     }
 
     void ChangeAgentDestination(Vector3 goToPosition){
-        _aiAgent.destination = goToPosition; 
+        _aiAgent.SetDestination(goToPosition); 
     }
 
     void EnemyLookAt(Transform target){

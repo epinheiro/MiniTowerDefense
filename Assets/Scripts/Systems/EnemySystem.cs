@@ -27,6 +27,13 @@ public class EnemySystem
         _pool.ReturnInstance(go);
     }
 
+    public void MapChanged(){
+        List<GameObject> actives = _pool.GetAllElementsActive();
+        foreach(GameObject go in actives){
+            go.GetComponent<EnemyBehaviour>().RecalculateRoute();
+        }
+    }
+
     // Pooling methods
     public int GetActiveNumber(){
         return _pool.Used;
