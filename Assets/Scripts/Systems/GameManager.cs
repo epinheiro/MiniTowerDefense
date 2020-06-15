@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
         // Projectile system
         if(_projectilePrefab == null) SetupErrorMessage("Projectile game object prefab not linked");
         Transform projectilesParent = transform.Find("Projectiles");
-        _projectileSystem = new ProjectileSystem(this, _projectilePrefab, ProjectilePoolSize, projectilesParent);
+        _projectileSystem = new ProjectileSystem(this, _projectilePrefab, projectilesParent);
 
         // Enemy System
         if(_enemyPrefab == null) SetupErrorMessage("Enemy game object prefab not linked");
