@@ -126,16 +126,29 @@ public class SpawnSystem
     }
 
     IEnumerator SpawnDelayedSingleEnemy(Vector3 position, float delaySeconds, int newEnemies, EnemyAttributes attributes){
-        if(newEnemies > 0){
-            int poolAvailableElements = _enemySystem.GetAvailableElements();
+        CheckAvailablePoolSize(newEnemies);
 
-            if(newEnemies > poolAvailableElements){
-                _enemySystem.EnlargePoolSize(newEnemies-poolAvailableElements);
+        float expectedDelay = delaySeconds;
+
+        int newEnemiesSpawned = 0;
+        while(newEnemiesSpawned < newEnemies){
+            try{
+                _enemySystem.SpawnEnemyAt(position, attributes);
+                newEnemiesSpawned++;
+                expectedDelay = delaySeconds;
+            }catch(System.Exception){
+                CheckAvailablePoolSize(newEnemies-newEnemiesSpawned);
+                expectedDelay = 0.05f;
             }
+            yield return new WaitForSeconds(expectedDelay);
+        }
+    }
 
-            _enemySystem.SpawnEnemyAt(position, attributes);
-            yield return new WaitForSecondsRealtime(delaySeconds);
-            yield return SpawnDelayedSingleEnemy(position, delaySeconds, --newEnemies, attributes);
+    void CheckAvailablePoolSize(int newEnemies){
+        int poolAvailableElements = _enemySystem.GetAvailableElements();
+
+        if(newEnemies > poolAvailableElements){
+            _enemySystem.EnlargePoolSize(newEnemies-poolAvailableElements);
         }
     }
 
