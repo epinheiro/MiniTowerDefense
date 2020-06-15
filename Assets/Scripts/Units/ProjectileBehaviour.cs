@@ -8,8 +8,8 @@ public class ProjectileBehaviour : MonoBehaviour
     GameManager _gameManager;
 
     // Delegation
-    public delegate void CollisionCallback(GameObject projectile, GameObject target);
-    CollisionCallback _onCollisionCallback;
+    public delegate void TriggerCallback(GameObject projectile, GameObject target);
+    TriggerCallback _onTriggerCallback;
 
     // Control variables
     bool _isActive = false;
@@ -33,20 +33,20 @@ public class ProjectileBehaviour : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter(Collision collision){
-        switch(System.Enum.Parse(typeof(GameManager.Tags), collision.gameObject.tag)){
+    void OnTriggerEnter(Collider collider){
+        switch(System.Enum.Parse(typeof(GameManager.Tags), collider.gameObject.tag)){
             case GameManager.Tags.Enemy:
-                _onCollisionCallback(this.gameObject, collision.gameObject);
+                _onTriggerCallback(this.gameObject, collider.gameObject);
                 ResetProjectile();
                 break;
         }
     }
 
     //// Public API
-    public void SetProjectionAttributes(Transform target, CollisionCallback callback){
+    public void SetProjectionAttributes(Transform target, TriggerCallback callback){
         _target = target;
         _isActive = true;
-        _onCollisionCallback = callback;
+        _onTriggerCallback = callback;
 
         _targetBehaviour = target.GetComponent<EnemyBehaviour>();
     }
@@ -55,6 +55,6 @@ public class ProjectileBehaviour : MonoBehaviour
     void ResetProjectile(){
         _target = null;
         _isActive = false;
-        _onCollisionCallback = null;
+        _onTriggerCallback = null;
     }
 }
