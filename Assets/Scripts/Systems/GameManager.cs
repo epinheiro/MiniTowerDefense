@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Enumerators
+    public enum GameState{InGame, EndGame}
     public enum InteractionMode {NoSelection, WallSelection, TowerSelection, ConstructionConfirmation, DestructionConfirmation}
     public enum Tags {Enemy, Core, Ground, Forest, UI, Construction, Blueprint, Projectile}
 
@@ -35,6 +36,10 @@ public class GameManager : MonoBehaviour
                 OnChangePlayerInteraction();
             }
         }
+    }
+    GameState _gameState;
+    public GameState State{
+        get { return _gameState; }
     }
 
     // Delegations
@@ -122,6 +127,7 @@ public class GameManager : MonoBehaviour
     }
 
     void Start(){
+        BeginGameProcedure();
     }
 
     void Update()
@@ -130,7 +136,12 @@ public class GameManager : MonoBehaviour
     }
 
     //// Public API
+    public void BeginGameProcedure(){
+        _gameState = GameState.InGame;
+        _spawn.BeginGame();
+    }
     public void EndGameProcedure(string text, string buttonText){
+        _gameState = GameState.EndGame;
         // Debug.Log("YOU LOST!"); // TODO - insert debug flag?
         this.StopAllCoroutines();
         Input.SetEndGameLayout(text, buttonText);

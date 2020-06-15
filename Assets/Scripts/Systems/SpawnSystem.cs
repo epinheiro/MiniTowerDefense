@@ -38,8 +38,6 @@ public class SpawnSystem
         PrepareSpawnPointList();
 
         LoadDataFiles();
-
-        _gameManager.StartCoroutine(BeginSpawns());
     }
 
     public void ReturnEnemyElement(GameObject go){
@@ -80,6 +78,9 @@ public class SpawnSystem
     }
 
     //// Spawn coroutines and methods
+    public void BeginGame(){
+        _gameManager.StartCoroutine(BeginSpawns());
+    }
     IEnumerator BeginSpawns(){
         while(_currentWave < _waves.Length){
             WaveData wave = _waves[_currentWave];
