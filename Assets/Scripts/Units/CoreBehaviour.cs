@@ -45,6 +45,7 @@ public class CoreBehaviour : MonoBehaviour
     void Update()
     {
         if(CurrentLife <= 0){
+            Debug.Log("INFO - Defeat");
             _gameManager.EndGameProcedure("Game Over", "Try again");
         }
     }
