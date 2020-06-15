@@ -30,6 +30,7 @@ public class InputController : MonoBehaviour
     Text _endGameText;
     Text _endGameButtonText;
     GameManager _gameManager;
+    WaveTimer _waveTimer;
 
     // Mouse related attributes
     GameObject _mouseArrow;
@@ -67,6 +68,8 @@ public class InputController : MonoBehaviour
 
         _endGameText = _endGamePopup.transform.Find("EndGameText").GetComponent<Text>();
         _endGameButtonText = _endGamePopup.transform.Find("Button").Find("Text").GetComponent<Text>();
+
+        _waveTimer = _overlayUI.transform.Find("Slider").GetComponent<WaveTimer>();
 
         SetInGameLayout();
     }
@@ -181,6 +184,10 @@ public class InputController : MonoBehaviour
 
     public void SetVisibilityTowerButton(bool isVisible){
         _towerButtonReference.gameObject.SetActive(isVisible);
+    }
+
+    public void SetWaveTimer(float seconds){
+        _waveTimer.SetUp(seconds);
     }
 
     //// Event callbacks

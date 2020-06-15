@@ -93,6 +93,8 @@ public class SpawnSystem
 
             Debug.Log(string.Format("INFO - Beggining wave {0} for {1} seconds", _currentWave, totalTime));
 
+            _gameManager.Input.SetWaveTimer(totalTime);
+
             foreach(EnemyWave subWave in wave.enemySubWaves){
                 EnemyWave.Type expectedType = subWave.enemyType;
 
