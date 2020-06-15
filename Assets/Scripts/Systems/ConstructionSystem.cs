@@ -6,6 +6,7 @@ public class ConstructionSystem
 {
     // Meta
     GameManager _gameManager;
+    enum Type {Tower, Wall}
 
     // Delegation
     public delegate void GameObjectAction(GameObject gameObject);
@@ -122,6 +123,33 @@ public class ConstructionSystem
         _currentStructureBehaviour = constructionBehaviour;
     }
 
+    void ConstructConfirmationCount(ConstructionBehaviour script){
+        if(script.GetType() == typeof(TowerBehaviour)){
+            if(_towerPool.Available <= 0){
+                _gameManager.Input.SetVisibilityTowerButton(false);
+            }
+        }else{ // WallBehaviour
+            if(_wallPool.Available <= 0){
+                _gameManager.Input.SetVisibilityWallButton(false);
+            }
+        }
+    }
+
+    void DestructionConfirmationCount(Type type){
+        switch(type){
+            case Type.Tower:
+                if(_towerPool.Available > 0){
+                    _gameManager.Input.SetVisibilityTowerButton(true);
+                }
+                break;
+            case Type.Wall:
+                if(_wallPool.Available > 0){
+                    _gameManager.Input.SetVisibilityWallButton(true);
+                }
+                break;
+        }
+    }
+
     // SetLayout
     void SetConstructionConfirmationLayout(){
         _gameManager.Input.SetConstructionPopupLayout(
@@ -139,16 +167,20 @@ public class ConstructionSystem
         );
     }
 
-    void ReturnConstructionToPool(GameObject gameObject){
+    Type ReturnConstructionToPool(GameObject gameObject){
         try{
             _towerPool.ReturnInstance(gameObject);
+            return Type.Tower;
         }catch(System.Exception){
             _wallPool.ReturnInstance(gameObject);
+            return Type.Wall;
         }
     }
 
     // Callbacks
     void OnConstructionConfirmation(){
+        ConstructConfirmationCount(_currentStructureBehaviour);
+
         _currentStructureBehaviour.Activate(OnStructureClick);
         _currentStructureBehaviour = null;
         _gameManager.Interaction = GameManager.InteractionMode.NoSelection;
@@ -164,7 +196,10 @@ public class ConstructionSystem
     }
 
     void OnDestroyConfirmation(GameObject gameObject){
-        ReturnConstructionToPool(gameObject);
+        Type constructionType = ReturnConstructionToPool(gameObject);
+
+        DestructionConfirmationCount(constructionType);
+
         _currentStructureBehaviour = null;
         _gameManager.Interaction = GameManager.InteractionMode.NoSelection;
 
