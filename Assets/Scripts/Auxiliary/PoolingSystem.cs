@@ -18,6 +18,9 @@ public class PrefabPoolingSystem
         get { return _poolSize; }
     }
     int _currentIndex = 0;
+    public int Used{
+        get { return _currentIndex; }
+    }
     GameObject _poolPrefab;
 
 
@@ -64,6 +67,7 @@ public class PrefabPoolingSystem
 
     public void EnlargePoolSize(int numberOfNewElements){
         InstantiateNewElements(this._poolPrefab, numberOfNewElements);
+        _poolSize += numberOfNewElements;
     }
 
     public int TryToReleasePoolElements(int numberToRelease){
@@ -77,6 +81,7 @@ public class PrefabPoolingSystem
                 }
             }
         }
+        _poolSize -= removed;
         return removed;
     }
 
