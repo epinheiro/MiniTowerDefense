@@ -13,9 +13,8 @@ public class PrefabPoolingSystem
 
     // Pool attributes
     List<GameObject> _pool;
-    int _poolSize;
     public int Size{
-        get { return _poolSize; }
+        get { return _pool.Count; }
     }
     int _currentIndex = 0;
     public int Used{
@@ -31,13 +30,12 @@ public class PrefabPoolingSystem
     //// Public API
     public PrefabPoolingSystem(GameObject prefab, int poolSize, Transform parent){
         this._poolPrefab = prefab;
-        this._poolSize = poolSize;
-        
+
         this._pool = new List<GameObject>();
 
         this._parent = parent;
         
-        InstantiateNewElements(prefab, Size);
+        InstantiateNewElements(prefab, poolSize);
     }
 
     public GameObject GetInstance(){
@@ -73,7 +71,6 @@ public class PrefabPoolingSystem
 
     public void EnlargePoolSize(int numberOfNewElements){
         InstantiateNewElements(this._poolPrefab, numberOfNewElements);
-        _poolSize += numberOfNewElements;
     }
 
     public int TryToReleasePoolElements(int numberToRelease){
@@ -87,7 +84,6 @@ public class PrefabPoolingSystem
                 }
             }
         }
-        _poolSize -= removed;
         return removed;
     }
 
