@@ -13,13 +13,14 @@ public class ProjectileBehaviour : MonoBehaviour
 
     // Control variables
     bool _isActive = false;
-    float _velocity = 5f; // CHECK - Hardcoded velocity
+    float _velocity;
     Transform _target;
     EnemyBehaviour _targetBehaviour;
 
     //// MonoBehaviour methods
     void Start(){
         _gameManager = GameManager.Instance;
+        _velocity = _gameManager.ProjectileVelocity;
     }
 
     void Update(){

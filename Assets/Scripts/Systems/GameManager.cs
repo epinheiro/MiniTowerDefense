@@ -20,6 +20,21 @@ public class GameManager : MonoBehaviour
     public int ProjectilePoolSize{
         get { return _gameSetup.projectilePoolSize; }
     }
+    public int CoreTotalLife{
+        get { return _gameSetup.coreTotalLife; }
+    }
+    public float CoreMenaceCheckPeriod{
+        get { return _gameSetup.coreMenaceCheckPeriod; }
+    }
+    public int TowerEnemyLockdownLimit{
+        get { return _gameSetup.towerEnemyLockdownLimit; }
+    }
+    public float TowerMenaceCheckPeriod{
+        get { return _gameSetup.towerMenaceCheckPeriod; }
+    }
+    public float ProjectileVelocity{
+        get { return _gameSetup.projectileVelocity; }
+    }
 
     // Enumerators
     public enum GameState{InGame, EndGame}

@@ -9,10 +9,10 @@ public class CoreBehaviour : MonoBehaviour
 
     // Balance variables
     float _currentTimeCount = 0;
-    float _secondsToCheckMenace = 2; // CHECK - hardcoded check period
+    float _secondsToCheckMenace;
 
     // Core gameplay attributes
-    int _coreTotalLife = 30; // CHECK - hardcoded life
+    int _coreTotalLife;
     int _currentLife;
     int CurrentLife{
         get { return _currentLife; }
@@ -29,16 +29,16 @@ public class CoreBehaviour : MonoBehaviour
 
     //// MonoBehaviour methods
     void Awake(){
-        _gameManager = GameManager.Instance;
-
         _menaces = new List<EnemyBehaviour>();
         _lifeBar = this.transform.Find("LifeBar").GetComponent<UILifeBar>();
-
-        _currentLife = _coreTotalLife;
     }
 
-    void Start()
-    {
+    void Start(){
+         _gameManager = GameManager.Instance;
+
+        _coreTotalLife = _gameManager.CoreTotalLife;
+        _currentLife = _coreTotalLife;
+        _secondsToCheckMenace = _gameManager.CoreMenaceCheckPeriod;
         _lifeBar.SetUp(_coreTotalLife);
     }
 

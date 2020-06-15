@@ -9,8 +9,8 @@ public class TowerBehaviour : ConstructionBehaviour
     
     // Balance variables
     float _currentTimeCount = 0;
-    readonly float _secondsToCheckMenace = 0.5f; // CHECK - hardcoded check period
-    readonly int _lockdownEnemiesLimit = 2; // CHECK - hardcoded enemy perception limit
+    float _secondsToCheckMenace;
+    int _lockdownEnemiesLimit;
 
     // Enemy related attributes
     List<GameObject> _menaces;
@@ -21,10 +21,17 @@ public class TowerBehaviour : ConstructionBehaviour
     //// MonoBehaviour methods
     protected override void Awake(){
         base.Awake();
-        _gameManager = GameManager.Instance;
 
         _menaces = new List<GameObject>();
         _perceptionTrigger = this.GetComponent<SphereCollider>();
+    }
+
+    protected override void Start(){
+        base.Start();
+        _gameManager = GameManager.Instance;
+
+        _secondsToCheckMenace = _gameManager.TowerMenaceCheckPeriod;
+        _lockdownEnemiesLimit = _gameManager.TowerEnemyLockdownLimit;
     }
 
     void Update(){
