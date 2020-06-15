@@ -176,7 +176,9 @@ public class ConstructionSystem
     }
 
     void OnStructureClick(GameObject gameObjectClicked){
-        _gameManager.Interaction = GameManager.InteractionMode.DestructionConfirmation;
-        SetDestructionLayout(gameObjectClicked);
+        if(_gameManager.State == GameManager.GameState.InGame){
+            _gameManager.Interaction = GameManager.InteractionMode.DestructionConfirmation;
+            SetDestructionLayout(gameObjectClicked);
+        }
     }
 }
