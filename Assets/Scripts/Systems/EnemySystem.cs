@@ -26,4 +26,8 @@ public class EnemySystem
     public void ReturnEnemyElement(GameObject go){
         _pool.ReturnInstance(go);
     }
+
+    public int GetActiveNumber(){
+        return _pool.Used;
+    }
 }

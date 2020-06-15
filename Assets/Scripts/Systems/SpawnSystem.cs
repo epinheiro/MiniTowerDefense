@@ -107,6 +107,11 @@ public class SpawnSystem
 
             Wave++;
         }
+
+        Debug.Log("End spawns!");
+
+        yield return new WaitUntil(() => _enemySystem.GetActiveNumber() == 0);
+        _gameManager.EndGameProcedure("Victory!", "Play again?");
     }
 
     IEnumerator SpawnDelayedSingleEnemy(Vector3 position, float delaySeconds, int remainingEnemies, EnemyAttributes attributes){
