@@ -21,6 +21,9 @@ public class PrefabPoolingSystem
     public int Used{
         get { return _currentIndex; }
     }
+    public int Available{
+        get { return Size - Used; }
+    }
     GameObject _poolPrefab;
 
 
