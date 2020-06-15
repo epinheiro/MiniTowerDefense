@@ -7,8 +7,11 @@ public class GameManager : MonoBehaviour
 {
     // Meta setup
     PoolingSetup _poolingSetup;
-    public int ConstructionPoolSize{
-        get { return _poolingSetup.eachConstructionPoolSize; }
+    public int TowerPoolSize{
+        get { return _poolingSetup.towerPoolSize; }
+    }
+    public int WallPoolSize{
+        get { return _poolingSetup.wallPoolSize; }
     }
     public int EnemyPoolSize{
         get { return _poolingSetup.enemyPoolSize; }
@@ -85,7 +88,7 @@ public class GameManager : MonoBehaviour
     //// MonoBehaviour methods
     void Awake(){
         // Meta
-        _poolingSetup = Resources.Load("Data/PoolSetup") as PoolingSetup;
+        _poolingSetup = Resources.Load("Data/PoolingSetup") as PoolingSetup;
 
         // Map
         if(_mapObject == null) SetupErrorMessage("Map game object not linked");
@@ -100,7 +103,7 @@ public class GameManager : MonoBehaviour
         if(_towerPrefab == null) SetupErrorMessage("Tower game object prefab not linked");
         if(_wallPrefab == null) SetupErrorMessage("Wall game object prefab not linked");
         Transform constructionsParent = transform.Find("Constructions");
-        _constructionSystem = new ConstructionSystem(this, _towerPrefab, _wallPrefab, ConstructionPoolSize, constructionsParent);
+        _constructionSystem = new ConstructionSystem(this, _towerPrefab, _wallPrefab, constructionsParent);
         Input.RegisterMouseMovementListener(_constructionSystem.OnMouseChange);
         Input.RegisterMouseClickListener(_constructionSystem.OnMouseClick);
 

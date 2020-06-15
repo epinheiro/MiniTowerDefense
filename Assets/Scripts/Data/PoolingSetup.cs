@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PoolSetup", menuName = "Data/Meta/Pooling", order = 5)]
+[CreateAssetMenu(fileName = "PoolingSetup", menuName = "Data/Meta/Pooling", order = 5)]
 public class PoolingSetup : ScriptableObject
 {
-    public int eachConstructionPoolSize;
+    public int towerPoolSize;
+    public int wallPoolSize;
     public int enemyPoolSize;
     public int projectilePoolSize;
 }
