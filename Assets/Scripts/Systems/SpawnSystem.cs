@@ -110,9 +110,13 @@ public class SpawnSystem
             Wave++;
         }
 
-        Debug.Log("End spawns!");
+        Debug.Log("INFO - No more waves, but there are alive enemies");
+        
+        while(_enemySystem.GetActiveNumber() > 0){
+            Debug.Log(string.Format("INFO - {0} enemies alive", _enemySystem.GetActiveNumber()));
+            yield return new WaitForSecondsRealtime(2f);
+        }
 
-        yield return new WaitUntil(() => _enemySystem.GetActiveNumber() == 0);
         _gameManager.EndGameProcedure("Victory!", "Play again?");
     }
 
