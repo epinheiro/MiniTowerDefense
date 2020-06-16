@@ -6,6 +6,7 @@ public class CoreBehaviour : MonoBehaviour
 {
     // Game Manager
     GameManager _gameManager;
+    SpawnSystem _spawnSystem;
 
     // Balance variables
     float _currentTimeCount = 0;
@@ -33,8 +34,10 @@ public class CoreBehaviour : MonoBehaviour
         _lifeBar = this.transform.Find("LifeBar").GetComponent<UILifeBar>();
     }
 
-    void Start(){
-         _gameManager = GameManager.Instance;
+void Start(){
+        _gameManager = GameManager.Instance;
+
+        _spawnSystem = _gameManager.Enemies;
 
         _coreTotalLife = _gameManager.CoreTotalLife;
         _currentLife = _coreTotalLife;
@@ -42,29 +45,37 @@ public class CoreBehaviour : MonoBehaviour
         _lifeBar.SetUp(_coreTotalLife);
     }
 
-    void Update()
-    {
+    void Update(){
         if(CurrentLife <= 0){
             Debug.Log("INFO - Defeat");
             _gameManager.EndGameProcedure("Game Over", "Try again");
         }else{
-            if(_menaces.Count > 0 && _currentTimeCount >= _secondsToCheckMenace){
+            if(_currentTimeCount >= _secondsToCheckMenace){
                 _currentTimeCount = 0;
-                TakeDamageFromManaces();
+                CheckForMenaces();
+                if(_menaces.Count > 0){
+                    TakeDamageFromManaces();
+                }
             }
         }
         _currentTimeCount += Time.deltaTime;
     }
 
-    void OnTriggerEnter(Collider other){
-        switch(System.Enum.Parse(typeof(GameManager.Tags), other.tag)){
-            case GameManager.Tags.Enemy:
-                _menaces.Add(other.GetComponent<EnemyBehaviour>());
-                break;
+    //// Private methods
+    void CheckForMenaces(){
+        List<GameObject> activeEnemies = _spawnSystem.GetActiveEnemiesGameObjects();
+        foreach(GameObject enemy in activeEnemies){
+            EnemyBehaviour enemyBehaviour = enemy.GetComponent<EnemyBehaviour>();
+            if(Vector3.Distance(this.transform.position, enemy.transform.position) <= 1.5f){ // CHECK - hardcoded distance
+                _menaces.Add(enemyBehaviour);
+            }else{
+                try{
+                    _menaces.Remove(enemyBehaviour);
+                }catch(System.Exception){}
+            }
         }
     }
 
-    //// Private methods
     void TakeDamageFromManaces(){
         CurrentLife -= ClearMenaceList(); // CHECK - Hardcoded damage (1 to each enemy life left)
     }
