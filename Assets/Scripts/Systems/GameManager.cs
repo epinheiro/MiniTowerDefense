@@ -68,16 +68,11 @@ public class GameManager : MonoBehaviour
         get { return _spawn; }
     }
 
-    [SerializeField]
-    GameObject _enemyPrefab = null;
-
     // Projectile related variables
     ProjectileSystem _projectileSystem;
     public ProjectileSystem Projectiles{
         get { return _projectileSystem; }
     }
-    [SerializeField]
-    GameObject _projectilePrefab = null;
 
     // Map related variables
     [SerializeField]
@@ -100,10 +95,6 @@ public class GameManager : MonoBehaviour
 
     // Construction
     ConstructionSystem _constructionSystem;
-    [SerializeField]
-    GameObject _towerPrefab = null;
-    [SerializeField]
-    GameObject _wallPrefab = null;
 
 
     //// MonoBehaviour methods
@@ -123,10 +114,8 @@ public class GameManager : MonoBehaviour
         if(_inputControllerReference == null) SetupErrorMessage("InputController game object not linked");
         
         // Construction System
-        if(_towerPrefab == null) SetupErrorMessage("Tower game object prefab not linked");
-        if(_wallPrefab == null) SetupErrorMessage("Wall game object prefab not linked");
         Transform constructionsParent = transform.Find("Constructions");
-        _constructionSystem = new ConstructionSystem(_towerPrefab, _wallPrefab, constructionsParent);
+        _constructionSystem = new ConstructionSystem(constructionsParent);
         Input.RegisterMouseMovementListener(_constructionSystem.OnMouseChange);
         Input.RegisterMouseClickListener(_constructionSystem.OnMouseClick);
 
@@ -134,14 +123,12 @@ public class GameManager : MonoBehaviour
         _interactionChangedListeners += _constructionSystem.OnPlayerInteractionChanged;
 
         // Projectile system
-        if(_projectilePrefab == null) SetupErrorMessage("Projectile game object prefab not linked");
         Transform projectilesParent = transform.Find("Projectiles");
-        _projectileSystem = new ProjectileSystem(_projectilePrefab, projectilesParent);
+        _projectileSystem = new ProjectileSystem(projectilesParent);
 
         // Enemy System
-        if(_enemyPrefab == null) SetupErrorMessage("Enemy game object prefab not linked");
         Transform enemiesParent = transform.Find("Enemies");
-        _spawn = new SpawnSystem(_enemyPrefab, enemiesParent);
+        _spawn = new SpawnSystem(enemiesParent);
     }
 
     void Start(){

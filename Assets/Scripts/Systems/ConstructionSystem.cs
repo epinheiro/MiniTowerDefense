@@ -23,10 +23,12 @@ public class ConstructionSystem
     ConstructionBehaviour _currentStructureBehaviour;
 
     //// Public API
-    public ConstructionSystem(GameObject _towerPrefab, GameObject _wallPrefab, Transform constructionsParent){
+    public ConstructionSystem(Transform constructionsParent){
+        GameObject towerPrefab = Resources.Load("Prefabs/Tower") as GameObject;
+        GameObject wallPrefab = Resources.Load("Prefabs/Wall") as GameObject;
         this._gameManager = GameManager.Instance;
-        this._towerPool = new PrefabPoolingSystem(_towerPrefab, _gameManager.TowerPoolSize, constructionsParent);
-        this._wallPool = new PrefabPoolingSystem(_wallPrefab, _gameManager.WallPoolSize, constructionsParent);
+        this._towerPool = new PrefabPoolingSystem(towerPrefab, _gameManager.TowerPoolSize, constructionsParent);
+        this._wallPool = new PrefabPoolingSystem(wallPrefab, _gameManager.WallPoolSize, constructionsParent);
 
         _mode = _gameManager.Interaction;
     }
