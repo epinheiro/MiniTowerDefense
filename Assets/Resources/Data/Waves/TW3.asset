@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: TW3
   m_EditorClassIdentifier: 
   enemySubWaves:
-  - {fileID: 11400000, guid: d6001548197cc7145a8189b99e4231b0, type: 2}
   - {fileID: 11400000, guid: abc1912fe06324f40a54e76697170cf8, type: 2}
+  - {fileID: 11400000, guid: d6001548197cc7145a8189b99e4231b0, type: 2}

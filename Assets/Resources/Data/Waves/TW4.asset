@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: TW4
   m_EditorClassIdentifier: 
   enemySubWaves:
-  - {fileID: 11400000, guid: 32bb510edd942254a9d20feac762879d, type: 2}
+  - {fileID: 11400000, guid: bcda3903535acba48a8b91ec4944b4e7, type: 2}
+  - {fileID: 11400000, guid: c04d898bc25851f498a2a284030cb4bd, type: 2}
