@@ -3,18 +3,25 @@ using UnityEngine.UI;
 
 public class WaveTimer : MonoBehaviour
 {
+    // Game Manager
+    GameManager _gameManager;
+
+    // Attributes
     Slider _bar;
 
     //// MonoBehaviour
     void Awake(){
+        _gameManager = GameManager.Instance;
         _bar = this.GetComponent<Slider>();
     }
 
     void Update(){
-        if(_bar.value >= 0){
-            ChangeValueIn(-Time.deltaTime);
-        }else{
-            ChangeValueIn(0);
+        if(_gameManager.State == GameManager.GameState.InGame){
+            if(_bar.value >= 0){
+                ChangeValueIn(-Time.deltaTime);
+            }else{
+                ChangeValueIn(0);
+            }
         }
     }
 

@@ -22,7 +22,7 @@ public class ProjectileBehaviour : MonoBehaviour
     }
 
     void Update(){
-        if(_isActive){
+        if(_isActive && _gameManager.State == GameManager.GameState.InGame){
             if(_targetBehaviour.Active){
                 this.transform.position = Vector3.MoveTowards(transform.position, _target.position, _velocity * Time.deltaTime);
             }else{
