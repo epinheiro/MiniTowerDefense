@@ -18,6 +18,8 @@ public class EnemyBehaviour : MonoBehaviour
     // Attributes
     GameObject _coreReference;
     NavMeshAgent _aiAgent;
+    Vector3 _destination;
+
     int _totalLife;
     int _currentLife;
     int CurrentLife{
@@ -37,8 +39,7 @@ public class EnemyBehaviour : MonoBehaviour
     //// MonoBehaviour methods
     void Start(){
         _gameManager = GameManager.Instance;
-        _coreReference = _gameManager.Core; 
-        ChangeAgentDestination(_coreReference.transform.position);
+        _coreReference = _gameManager.Core;
     }
 
     void OnTriggerEnter(Collider other){
@@ -54,6 +55,7 @@ public class EnemyBehaviour : MonoBehaviour
     public void SetEnemyAttributes(Vector3 spawnPoint, EnemyAttributes attributes){
         _isActive = true;
         this.transform.position = spawnPoint;
+        InsertAIAgent();
         UnpackEnemyAttributes(attributes);
     }
 
@@ -70,9 +72,8 @@ public class EnemyBehaviour : MonoBehaviour
 
     public int EraseEnemy(){
         int remainingLife = this._currentLife;
-
-        _gameManager.Enemies.ReturnEnemyElement(this.gameObject);
         ResetEnemy();
+        _gameManager.Enemies.ReturnEnemyElement(this.gameObject);
 
         return remainingLife;
     }
@@ -91,10 +92,20 @@ public class EnemyBehaviour : MonoBehaviour
 
     void ResetEnemy(){
         _isActive = false;
+        Destroy(_aiAgent);
+    }
+
+    void InsertAIAgent(){
+        _aiAgent = this.gameObject.AddComponent(typeof(NavMeshAgent)) as NavMeshAgent;
+        _aiAgent.SetDestination(_destination);
     }
 
     void ChangeAgentDestination(Vector3 goToPosition){
-        _aiAgent.SetDestination(goToPosition); 
+        _destination = new Vector3(goToPosition.x, 0, goToPosition.z);
+    }
+
+    void AIActive(bool isActive){
+        _aiAgent.isStopped = !isActive;
     }
 
     void EnemyLookAt(Transform target){
