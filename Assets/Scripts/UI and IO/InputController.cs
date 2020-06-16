@@ -245,6 +245,7 @@ public class InputController : MonoBehaviour
                 break;
 
             case GameManager.InteractionMode.ConstructionConfirmation:
+            case GameManager.InteractionMode.DestructionConfirmation:
                 SetToggleButton(false, _wallButtonReference);
                 SetToggleButton(false, _towerButtonReference);
                 break;
