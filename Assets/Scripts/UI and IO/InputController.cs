@@ -6,6 +6,9 @@ using UnityEngine.Events;
 
 public class InputController : MonoBehaviour
 {
+    // Meta
+    GameManager _gameManager;
+
     // Delegation
     public delegate void PassVector3(Vector3 vector);
 
@@ -16,21 +19,25 @@ public class InputController : MonoBehaviour
     // Control variables
     bool _raycastIsPossible = true;
     
-    // Game objects references
+    //// UI game objects references
+    // Main UI
     GameObject _overlayUI;
+    WaveTimer _waveTimer;
+    // Wall button 
+    Button _wallButtonReference;
+    // tower button
+    Button _towerButtonReference;
+    // End game popup
     GameObject _endGamePopup;
+    Text _endGameText;
+    Text _endGameButtonText;
+    // Construction/Destruction popup
     GameObject _constructionPopup;
     Text _constructionText;
     Button _constructionButton1Reference;
     Text _constructionButton1Text;
     Button _constructionButton2Reference;
     Text _constructionButton2Text;
-    Button _wallButtonReference;
-    Button _towerButtonReference;
-    Text _endGameText;
-    Text _endGameButtonText;
-    GameManager _gameManager;
-    WaveTimer _waveTimer;
 
     // Mouse related attributes
     GameObject _mouseArrow;
