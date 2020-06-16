@@ -75,8 +75,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Map related variables
-    [SerializeField]
-    GameObject _mapObject = null;
+    GameObject _mapObject;
     GameObject _core;
     GameObject _spawnPoints;
     public GameObject Core{
@@ -87,8 +86,7 @@ public class GameManager : MonoBehaviour
     }
 
     // UI related variables
-    [SerializeField]
-    InputController _inputControllerReference = null;
+    InputController _inputControllerReference;
     public InputController Input{
         get { return _inputControllerReference; }
     }
@@ -105,14 +103,17 @@ public class GameManager : MonoBehaviour
         _gameSetup = Resources.Load("Data/GameSetup") as GameSetup;
 
         // Map
+        _mapObject = GameObject.Find("Map");
         if(_mapObject == null) SetupErrorMessage("Map game object not linked");
         else{
             _core = _mapObject.transform.Find("Core").gameObject;
             _spawnPoints = _mapObject.transform.Find("SpawnPoints").gameObject;
         }
 
+        // IO/Input/UI
+        _inputControllerReference = GameObject.Find("UICanvas").GetComponent<InputController>();
         if(_inputControllerReference == null) SetupErrorMessage("InputController game object not linked");
-        
+
         // Construction System
         Transform constructionsParent = transform.Find("Constructions");
         _constructionSystem = new ConstructionSystem(constructionsParent);
