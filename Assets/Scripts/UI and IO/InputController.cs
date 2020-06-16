@@ -25,8 +25,12 @@ public class InputController : MonoBehaviour
     WaveTimer _waveTimer;
     // Wall button 
     Button _wallButtonReference;
+    Image _wallButtonImage;
+    Text _wallButtonText;
     // tower button
     Button _towerButtonReference;
+    Image _towerButtonImage;
+    Text _towerButtonText;
     // End game popup
     GameObject _endGamePopup;
     Text _endGameText;
@@ -57,8 +61,14 @@ public class InputController : MonoBehaviour
         _overlayUI = this.transform.Find("OverlayUI").gameObject;
 
         Transform buttonGroup = _overlayUI.transform.Find("Buttons");
-        _wallButtonReference = buttonGroup.Find("UIButton_Wall").GetComponent<Button>();
-        _towerButtonReference = buttonGroup.Find("UIButton_Tower").GetComponent<Button>();
+        Transform wallButton = buttonGroup.Find("UIButton_Wall");
+        _wallButtonReference = wallButton.GetComponent<Button>();
+        _wallButtonImage = wallButton.GetComponent<Image>();
+        _wallButtonText = wallButton.Find("Text").GetComponent<Text>();
+        Transform towerButton = buttonGroup.Find("UIButton_Tower");
+        _towerButtonReference = towerButton.GetComponent<Button>();
+        _towerButtonImage = towerButton.GetComponent<Image>();
+        _towerButtonText = towerButton.Find("Text").GetComponent<Text>();
 
         GameObject _popups = this.transform.Find("Popups").gameObject;
         _endGamePopup = _popups.transform.Find("EndGame").gameObject;
@@ -186,11 +196,15 @@ public class InputController : MonoBehaviour
     }
 
     public void SetVisibilityWallButton(bool isVisible){
-        _wallButtonReference.gameObject.SetActive(isVisible);
+        _wallButtonReference.enabled = isVisible;
+        _wallButtonImage.enabled = isVisible;
+        _wallButtonText.enabled = isVisible;
     }
 
     public void SetVisibilityTowerButton(bool isVisible){
-        _towerButtonReference.gameObject.SetActive(isVisible);
+        _towerButtonReference.enabled = isVisible;
+        _towerButtonImage.enabled = isVisible;
+        _towerButtonText.enabled = isVisible;
     }
 
     public void SetWaveTimer(float seconds){
