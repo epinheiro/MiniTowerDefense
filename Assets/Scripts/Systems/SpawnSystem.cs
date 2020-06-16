@@ -51,6 +51,10 @@ public class SpawnSystem
         _enemySystem.MapChanged();
     }
 
+    public List<GameObject> GetActiveEnemiesGameObjects(){
+        return _enemySystem.GetEnemiesActive();
+    }
+
     //// Private methods
     void PrepareSpawnPointList(){
         _spawnPointList = new List<Vector3>();

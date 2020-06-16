@@ -28,10 +28,14 @@ public class EnemySystem
     }
 
     public void MapChanged(){
-        List<GameObject> actives = _pool.GetAllElementsActive();
+        List<GameObject> actives = GetEnemiesActive();
         foreach(GameObject go in actives){
             go.GetComponent<EnemyBehaviour>().RecalculateRoute();
         }
+    }
+
+    public List<GameObject> GetEnemiesActive(){
+        return _pool.GetAllElementsActive();;
     }
 
     // Pooling methods
