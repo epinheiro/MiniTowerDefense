@@ -141,7 +141,6 @@ public class GameManager : MonoBehaviour
     }
     public void EndGameProcedure(string text, string buttonText){
         _gameState = GameState.EndGame;
-        // Debug.Log("YOU LOST!"); // TODO - insert debug flag?
         this.StopAllCoroutines();
         Input.SetEndGameLayout(text, buttonText);
     }
@@ -158,6 +157,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void RestartScene(){
+        Debug.Log("INFO - Restart game");
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
     }
 

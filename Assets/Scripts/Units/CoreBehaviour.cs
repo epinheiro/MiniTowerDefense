@@ -45,19 +45,21 @@ public class CoreBehaviour : MonoBehaviour
     }
 
     void Update(){
-        if(CurrentLife <= 0){
-            Debug.Log("INFO - Defeat");
-            _gameManager.EndGameProcedure("Game Over", "Try again");
-        }else{
-            if(_currentTimeCount >= _secondsToCheckMenace){
-                _currentTimeCount = 0;
-                CheckForMenaces();
-                if(_menaces.Count > 0){
-                    TakeDamageFromManaces();
+        if(_gameManager.State == GameManager.GameState.InGame){
+            if(CurrentLife <= 0){
+                Debug.Log("INFO - Defeat");
+                _gameManager.EndGameProcedure("Game Over", "Try again");
+            }else{
+                if(_currentTimeCount >= _secondsToCheckMenace){
+                    _currentTimeCount = 0;
+                    CheckForMenaces();
+                    if(_menaces.Count > 0){
+                        TakeDamageFromManaces();
+                    }
                 }
             }
+            _currentTimeCount += Time.deltaTime;
         }
-        _currentTimeCount += Time.deltaTime;
     }
 
     //// Private methods
