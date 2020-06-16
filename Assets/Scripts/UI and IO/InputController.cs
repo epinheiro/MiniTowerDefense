@@ -211,19 +211,19 @@ public class InputController : MonoBehaviour
 
     //// Event callbacks
     // Buttons pressed
-    public void OnClickTowerButton(){
+    public void OnClickTowerButton(){ // Linked in Inspector
         _gameManager.PlayerInteractionClicked(GameManager.InteractionMode.TowerSelection);
     }
 
-    public void OnClickWallButton(){
+    public void OnClickWallButton(){ // Linked in Inspector
         _gameManager.PlayerInteractionClicked(GameManager.InteractionMode.WallSelection);
     }
 
     // Buttons hovered
-    public void OnEnterHover(){
+    public void OnEnterHover(){ // Linked in Inspector
         _raycastIsPossible = false;
     }
-    public void OnExitHover(){
+    public void OnExitHover(){ // Linked in Inspector
         _raycastIsPossible = true;
     }
     // State changed

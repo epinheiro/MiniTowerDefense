@@ -115,11 +115,6 @@ public class GameManager : MonoBehaviour
         // Construction System
         Transform constructionsParent = transform.Find("Constructions");
         _constructionSystem = new ConstructionSystem(constructionsParent);
-        Input.RegisterMouseMovementListener(_constructionSystem.OnMouseChange);
-        Input.RegisterMouseClickListener(_constructionSystem.OnMouseClick);
-
-        _interactionChangedListeners += _inputControllerReference.OnPlayerInteractionChanged;
-        _interactionChangedListeners += _constructionSystem.OnPlayerInteractionChanged;
 
         // Projectile system
         Transform projectilesParent = transform.Find("Projectiles");
@@ -128,6 +123,13 @@ public class GameManager : MonoBehaviour
         // Enemy System
         Transform enemiesParent = transform.Find("Enemies");
         _spawn = new SpawnSystem(enemiesParent);
+
+        // Register notification callbacks
+        Input.RegisterMouseMovementListener(_constructionSystem.OnMouseChange);
+        Input.RegisterMouseClickListener(_constructionSystem.OnMouseClick);
+        RegisterInteractionChangedListener(_constructionSystem.OnPlayerInteractionChanged);
+
+        RegisterInteractionChangedListener(_inputControllerReference.OnPlayerInteractionChanged);
     }
 
     void Start(){
@@ -170,5 +172,9 @@ public class GameManager : MonoBehaviour
 
     void SetupErrorMessage(string message){
         throw new System.Exception(string.Format("GameManager not correctly setup: {0}", message));
+    }
+
+    void RegisterInteractionChangedListener(PlayerInteractionAction callback){
+        _interactionChangedListeners += callback;
     }
 }

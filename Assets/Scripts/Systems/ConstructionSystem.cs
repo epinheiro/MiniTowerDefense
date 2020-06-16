@@ -31,6 +31,7 @@ public class ConstructionSystem
         _mode = _gameManager.Interaction;
     }
 
+    // Public callbacks
     public void OnMouseChange(Vector3 point){
         if(_currentStructurePlacement != null){
             _currentStructurePlacement.transform.LookAt(_gameManager.Core.transform);
