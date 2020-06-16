@@ -98,7 +98,7 @@ public class SpawnSystem
                 totalTime += subWave.timeUntilNextSubWave;
             }
 
-            Debug.Log(string.Format("INFO - Beggining wave {0} for {1} seconds", _currentWave, totalTime));
+            Debug.Log(string.Format("INFO - Beggining wave {0} for {1} seconds", _currentWave + 1, totalTime));
 
             _gameManager.Input.SetWaveTimer(totalTime);
 
