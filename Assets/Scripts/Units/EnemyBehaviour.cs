@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyBehaviour : MonoBehaviour
@@ -30,13 +28,12 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
-
+    //// MonoBehaviour methods
     void Awake(){
         _aiAgent = this.GetComponent<NavMeshAgent>();
         _lifeBar = this.transform.Find("LifeBar").GetComponent<UILifeBar>();
     }
 
-    //// MonoBehaviour methods
     void Start(){
         _gameManager = GameManager.Instance;
         _coreReference = _gameManager.Core;

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class CoreBehaviour : MonoBehaviour
@@ -34,7 +33,7 @@ public class CoreBehaviour : MonoBehaviour
         _lifeBar = this.transform.Find("LifeBar").GetComponent<UILifeBar>();
     }
 
-void Start(){
+    void Start(){
         _gameManager = GameManager.Instance;
 
         _spawnSystem = _gameManager.Enemies;

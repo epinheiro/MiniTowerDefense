@@ -1,6 +1,2 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class WallBehaviour : ConstructionBehaviour{
+﻿public class WallBehaviour : ConstructionBehaviour{
 }

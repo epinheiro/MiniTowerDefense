@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "Data", menuName = "Data/Wave/EnemyWave", order = 3)]
 public class EnemyWave : ScriptableObject{
